@@ -6,21 +6,21 @@ export const useAuthStore = create((set) => ({
   role: null,
   isLoading: true,
 
-  // Called after login/register — persists token to localStorage
+  // Called after login/register — persists token to localStorage + cookie
   setAuth: (user, token) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('cl_token', token);
-      // Also store token as a cookie so Next.js middleware can read it
       document.cookie = `cl_token=${token}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
     }
     set({ user, token, role: user?.role || null, isLoading: false });
   },
 
-  // Clear all auth state
+  // Clear all auth state and redirect to login
   logout: () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('cl_token');
       document.cookie = 'cl_token=; path=/; max-age=0';
+      window.location.href = '/login';
     }
     set({ user: null, token: null, role: null, isLoading: false });
   },
@@ -31,7 +31,6 @@ export const useAuthStore = create((set) => ({
       const token = localStorage.getItem('cl_token');
       if (token) {
         try {
-          // Decode the JWT payload (middle segment) to extract user info
           const payload = JSON.parse(atob(token.split('.')[1]));
           set({
             user: { id: payload.id, role: payload.role },
@@ -40,7 +39,6 @@ export const useAuthStore = create((set) => ({
             isLoading: false,
           });
         } catch {
-          // Corrupted token — clear everything
           localStorage.removeItem('cl_token');
           document.cookie = 'cl_token=; path=/; max-age=0';
           set({ user: null, token: null, role: null, isLoading: false });
