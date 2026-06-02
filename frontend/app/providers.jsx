@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { Toaster } from 'sonner';
 import { useAuthStore } from '@/store/authStore';
+import { ThemeProvider } from 'next-themes';
 
 export default function Providers({ children }) {
   const initAuth = useAuthStore((state) => state.initAuth);
@@ -12,7 +13,7 @@ export default function Providers({ children }) {
   }, [initAuth]);
 
   return (
-    <>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       {children}
       <Toaster
         position="top-right"
@@ -23,6 +24,6 @@ export default function Providers({ children }) {
           },
         }}
       />
-    </>
+    </ThemeProvider>
   );
 }

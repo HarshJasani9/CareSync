@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function LandingPage() {
   return (
@@ -38,6 +39,9 @@ export default function LandingPage() {
               >
                 Get Started
               </Link>
+              <div className="pl-4 border-l border-gray-200 dark:border-gray-700 ml-2">
+                <ThemeToggle />
+              </div>
             </div>
           </div>
         </div>
