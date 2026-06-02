@@ -19,9 +19,24 @@ export default function ThemeToggle() {
 
   const isDark = theme === 'dark';
 
+  const toggleTheme = () => {
+    const nextTheme = isDark ? 'light' : 'dark';
+    
+    // Fallback if browser doesn't support View Transitions API
+    if (!document.startViewTransition) {
+      setTheme(nextTheme);
+      return;
+    }
+
+    // Trigger the swipe transition
+    document.startViewTransition(() => {
+      setTheme(nextTheme);
+    });
+  };
+
   return (
     <button
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      onClick={toggleTheme}
       className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
         isDark ? 'bg-gray-800' : 'bg-gray-200'
       }`}

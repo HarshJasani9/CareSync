@@ -5,10 +5,10 @@ import ThemeToggle from '@/components/ThemeToggle';
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-screen bg-surface-muted flex flex-col font-sans selection:bg-primary-500 selection:text-white">
+    <div className="min-h-screen bg-surface-muted dark:bg-gray-950 flex flex-col font-sans selection:bg-primary-500 selection:text-white transition-colors duration-300">
       
       {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <nav className="fixed w-full z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <Link href="/" className="flex items-center gap-3 group">
@@ -17,29 +17,29 @@ export default function HowItWorksPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
-              <span className="text-2xl font-black text-gray-900 tracking-tight">Care<span className="text-primary-600">Sync</span></span>
+              <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Care<span className="text-primary-600 dark:text-primary-500">Sync</span></span>
             </Link>
             
             <div className="hidden md:flex items-center gap-8 font-medium">
-              <Link href="/#features" className="text-gray-600 hover:text-primary-600 transition-colors">Features</Link>
-              <Link href="/how-it-works" className="text-primary-600 font-semibold transition-colors">How it Works</Link>
-              <Link href="/#doctors" className="text-gray-600 hover:text-primary-600 transition-colors">For Doctors</Link>
+              <Link href="/#features" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Features</Link>
+              <Link href="/how-it-works" className="text-primary-600 dark:text-primary-500 font-semibold transition-colors">How it Works</Link>
+              <Link href="/#doctors" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">For Doctors</Link>
             </div>
 
             <div className="flex items-center gap-4">
               <Link 
                 href="/login" 
-                className="hidden sm:block text-gray-900 font-semibold hover:text-primary-600 transition-colors"
+                className="hidden sm:block text-gray-900 dark:text-white font-semibold hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
               >
                 Sign In
               </Link>
               <Link 
                 href="/register" 
-                className="px-6 py-2.5 bg-gray-900 text-white font-semibold rounded-xl hover:bg-black hover:shadow-xl hover:shadow-gray-900/20 hover:-translate-y-0.5 transition-all duration-200"
+                className="px-6 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold rounded-xl hover:bg-black dark:hover:bg-gray-100 hover:shadow-xl hover:shadow-gray-900/20 dark:hover:shadow-white/10 hover:-translate-y-0.5 transition-all duration-200"
               >
                 Get Started
               </Link>
-              <div className="pl-4 border-l border-gray-200 dark:border-gray-700 ml-2">
+              <div className="pl-4 border-l border-gray-200 dark:border-gray-800 ml-2">
                 <ThemeToggle />
               </div>
             </div>
@@ -48,16 +48,16 @@ export default function HowItWorksPage() {
       </nav>
 
       {/* Header Section */}
-      <section className="pt-32 pb-16 lg:pt-40 lg:pb-24 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary-50/50"></div>
+      <section className="pt-32 pb-16 lg:pt-40 lg:pb-24 bg-white dark:bg-gray-950 relative overflow-hidden transition-colors duration-300">
+        <div className="absolute inset-0 bg-primary-50/50 dark:bg-primary-900/10"></div>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white text-primary-700 text-sm font-semibold mb-6 shadow-sm border border-primary-100">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-gray-900 text-primary-700 dark:text-primary-400 text-sm font-semibold mb-6 shadow-sm border border-primary-100 dark:border-gray-800">
             Simple, Transparent, Fast
           </div>
-          <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
             How CareSync Works
           </h1>
-          <p className="text-lg text-gray-600 text-balance leading-relaxed">
+          <p className="text-lg text-gray-600 dark:text-gray-300 text-balance leading-relaxed">
             Whether you're a patient looking for care or a doctor managing your practice, we've streamlined every step of the journey so you can focus on what matters most: Health.
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function HowItWorksPage() {
       <section className="py-20 lg:py-28 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <h2 className="text-3xl font-black text-gray-900 mb-2">The Patient Journey</h2>
+            <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-2">The Patient Journey</h2>
             <div className="w-20 h-1.5 bg-primary-500 rounded-full"></div>
           </div>
 
@@ -101,10 +101,10 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Doctor Journey Section */}
-      <section className="py-20 lg:py-28 bg-white border-y border-gray-100">
+      <section className="py-20 lg:py-28 bg-white dark:bg-gray-950 border-y border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <h2 className="text-3xl font-black text-gray-900 mb-2">The Doctor Journey</h2>
+            <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-2">The Doctor Journey</h2>
             <div className="w-20 h-1.5 bg-blue-500 rounded-full"></div>
           </div>
 
@@ -114,41 +114,41 @@ export default function HowItWorksPage() {
               title="Apply & Get Verified"
               description="Register and submit your credentials. Our admin team will verify your qualifications to ensure trust."
               icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />}
-              color="text-blue-500"
-              bgColor="bg-blue-50"
+              color="text-blue-500 dark:text-blue-400"
+              bgColor="bg-blue-50 dark:bg-blue-900/20"
             />
             <StepCard 
               number="02"
               title="Set Your Schedule"
               description="Use our weekly availability builder to define exactly when you want to accept patient appointments."
               icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />}
-              color="text-blue-500"
-              bgColor="bg-blue-50"
+              color="text-blue-500 dark:text-blue-400"
+              bgColor="bg-blue-50 dark:bg-blue-900/20"
             />
             <StepCard 
               number="03"
               title="Manage Requests"
               description="Review incoming patient booking requests. Confirm or reject them with a single click from your dashboard."
               icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />}
-              color="text-blue-500"
-              bgColor="bg-blue-50"
+              color="text-blue-500 dark:text-blue-400"
+              bgColor="bg-blue-50 dark:bg-blue-900/20"
             />
             <StepCard 
               number="04"
               title="Write Prescriptions"
               description="Use our intuitive form to prescribe medicines. We'll automatically generate a branded PDF and email it."
               icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />}
-              color="text-blue-500"
-              bgColor="bg-blue-50"
+              color="text-blue-500 dark:text-blue-400"
+              bgColor="bg-blue-50 dark:bg-blue-900/20"
             />
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gray-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary-900/20"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary-500 rounded-full mix-blend-screen filter blur-3xl opacity-30"></div>
+      <section className="py-24 bg-gray-900 dark:bg-black relative overflow-hidden transition-colors duration-300">
+        <div className="absolute inset-0 bg-primary-900/20 dark:bg-primary-900/10"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary-500 rounded-full mix-blend-screen filter blur-3xl opacity-30 dark:opacity-20"></div>
         
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <h2 className="text-4xl font-black text-white mb-6">Experience the process firsthand.</h2>
@@ -165,7 +165,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white py-12">
+      <footer className="bg-white dark:bg-gray-950 py-12 border-t border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
@@ -173,19 +173,19 @@ export default function HowItWorksPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </div>
-            <span className="text-xl font-black text-gray-900 tracking-tight">Care<span className="text-primary-600">Sync</span></span>
+            <span className="text-xl font-black text-gray-900 dark:text-white tracking-tight">Care<span className="text-primary-600 dark:text-primary-500">Sync</span></span>
           </div>
-          <p className="text-gray-500 font-medium text-sm">© 2026 CareSync Technologies. All rights reserved.</p>
+          <p className="text-gray-500 dark:text-gray-400 font-medium text-sm">© 2026 CareSync Technologies. All rights reserved.</p>
         </div>
       </footer>
     </div>
   );
 }
 
-function StepCard({ number, title, description, icon, color = "text-primary-600", bgColor = "bg-primary-50" }) {
+function StepCard({ number, title, description, icon, color = "text-primary-600 dark:text-primary-400", bgColor = "bg-primary-50 dark:bg-primary-900/20" }) {
   return (
-    <div className="group relative bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:border-gray-200 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 hover:-translate-y-1">
-      <div className="absolute top-6 right-6 text-6xl font-black text-gray-50 group-hover:text-gray-100 transition-colors pointer-events-none select-none z-0">
+    <div className="group relative bg-white dark:bg-gray-900 p-8 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:border-gray-200 dark:hover:border-gray-700 hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-none transition-all duration-300 hover:-translate-y-1">
+      <div className="absolute top-6 right-6 text-6xl font-black text-gray-50 dark:text-gray-800/50 group-hover:text-gray-100 dark:group-hover:text-gray-800 transition-colors pointer-events-none select-none z-0">
         {number}
       </div>
       <div className={`relative z-10 w-14 h-14 rounded-2xl ${bgColor} ${color} flex items-center justify-center mb-6`}>
@@ -193,8 +193,8 @@ function StepCard({ number, title, description, icon, color = "text-primary-600"
           {icon}
         </svg>
       </div>
-      <h3 className="relative z-10 text-xl font-bold text-gray-900 mb-3">{title}</h3>
-      <p className="relative z-10 text-gray-600 leading-relaxed text-sm">{description}</p>
+      <h3 className="relative z-10 text-xl font-bold text-gray-900 dark:text-white mb-3">{title}</h3>
+      <p className="relative z-10 text-gray-600 dark:text-gray-300 leading-relaxed text-sm">{description}</p>
     </div>
   );
 }
