@@ -30,6 +30,7 @@ app.use(limiter);
 const authRoutes = require('./routes/auth');
 const doctorRoutes = require('./routes/doctors');
 const appointmentRoutes = require('./routes/appointments');
+const prescriptionRoutes = require('./routes/prescriptions');
 
 // API Routes
 const apiRouter = express.Router();
@@ -37,7 +38,7 @@ const apiRouter = express.Router();
 apiRouter.use('/auth', authRoutes);
 apiRouter.use('/doctors', doctorRoutes);
 apiRouter.use('/appointments', appointmentRoutes);
-apiRouter.use('/prescriptions', (req, res) => res.json({ message: 'Prescriptions Route Stub' }));
+apiRouter.use('/prescriptions', prescriptionRoutes);
 apiRouter.use('/records', (req, res) => res.json({ message: 'Records Route Stub' }));
 apiRouter.use('/reviews', (req, res) => res.json({ message: 'Reviews Route Stub' }));
 apiRouter.use('/admin', (req, res) => res.json({ message: 'Admin Route Stub' }));
