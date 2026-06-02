@@ -60,6 +60,39 @@ CareLink is a comprehensive, full-stack healthcare platform built on the **MERN*
 
 ---
 
+## 🏗️ System Architecture
+
+CareLink follows a decoupled Client-Server architecture:
+
+1. **Client Layer (Next.js):** Handles UI rendering, client-side routing, and state management (Zustand). Uses Axios interceptors to attach JWT tokens to every request. Next.js Middleware protects route groups (`/admin`, `/doctor`, `/dashboard`) based on the JWT payload.
+2. **API Layer (Express.js):** RESTful API that processes business logic, validates payloads (express-validator), and handles authorization (`protect` and `authorize` middleware).
+3. **Database Layer (MongoDB):** Relational-style document modeling using Mongoose `populate()`. (e.g., An `Appointment` references a `Patient`, a `Doctor`, and optionally a `Prescription`).
+4. **External Services:**
+   - **Cloudinary:** Used for uploading Health Records and system-generated PDF prescriptions via memory-buffered streams.
+   - **Resend (SMTP):** Dispatches automated, branded HTML emails for appointment confirmations and prescription deliveries.
+
+---
+
+## 🔄 Core User Flows
+
+### 1. The Patient Journey
+*   **Onboarding:** Registers as a 'patient' and lands on the Patient Dashboard.
+*   **Discovery:** Navigates to "Find Doctors" and filters specialists based on needs.
+*   **Booking:** Selects a date on the Doctor's profile, views available slots mapped for that specific day, and requests an appointment.
+*   **Consultation & Beyond:** Once the doctor confirms, the patient receives an email. After the visit, the patient can download their digital prescription and leave a 1-5 star review.
+
+### 2. The Doctor Journey
+*   **Onboarding:** Registers as a 'doctor'. Account goes into a `pending` state until an Admin verifies them.
+*   **Setup:** Once verified via email, the doctor sets their consultation fee, bio, and weekly availability schedule (e.g., Mon: 09:00-17:00).
+*   **Daily Workflow:** Logs in to see "Pending Requests" and "Today's Schedule". Approves incoming patient requests.
+*   **Prescribing:** Clicks "Write Prescription" on a completed appointment, fills out the dynamic medicine form, and clicks Submit. The server generates a PDF, uploads it, and emails the patient.
+
+### 3. The Admin Journey
+*   **Oversight:** Logs into the protected Admin panel to view real-time Recharts visualizations of platform health (Total Patients, Appointments distribution).
+*   **Quality Control:** Reviews the credentials of newly registered doctors and clicks "Approve" or "Reject", immediately triggering a notification email to the doctor.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
