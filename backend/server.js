@@ -20,8 +20,16 @@ const limiter = rateLimit({
 });
 
 // Middleware
+// Trust proxy if behind a reverse proxy (like Render) for accurate rate limiting IPs
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true
+}));
 app.use(express.json()); // Body parser for JSON
 app.use(morgan('dev'));
 app.use(limiter);
