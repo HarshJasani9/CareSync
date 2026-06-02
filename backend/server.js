@@ -31,6 +31,7 @@ const authRoutes = require('./routes/auth');
 const doctorRoutes = require('./routes/doctors');
 const appointmentRoutes = require('./routes/appointments');
 const prescriptionRoutes = require('./routes/prescriptions');
+const recordRoutes = require('./routes/records');
 
 // API Routes
 const apiRouter = express.Router();
@@ -39,7 +40,7 @@ apiRouter.use('/auth', authRoutes);
 apiRouter.use('/doctors', doctorRoutes);
 apiRouter.use('/appointments', appointmentRoutes);
 apiRouter.use('/prescriptions', prescriptionRoutes);
-apiRouter.use('/records', (req, res) => res.json({ message: 'Records Route Stub' }));
+apiRouter.use('/records', recordRoutes);
 apiRouter.use('/reviews', (req, res) => res.json({ message: 'Reviews Route Stub' }));
 apiRouter.use('/admin', (req, res) => res.json({ message: 'Admin Route Stub' }));
 

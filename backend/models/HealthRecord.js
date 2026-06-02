@@ -26,6 +26,9 @@ const HealthRecordSchema = new mongoose.Schema(
       enum: ['pdf', 'image'],
       required: [true, 'File type is required'],
     },
+    publicId: {
+      type: String, // Cloudinary public_id for deletion
+    },
     sharedWith: [
       {
         type: mongoose.Schema.Types.ObjectId,
