@@ -26,10 +26,13 @@ app.use(express.json()); // Body parser for JSON
 app.use(morgan('dev'));
 app.use(limiter);
 
-// API Routes Stubs
+// Route files
+const authRoutes = require('./routes/auth');
+
+// API Routes
 const apiRouter = express.Router();
 
-apiRouter.use('/auth', (req, res) => res.json({ message: 'Auth Route Stub' }));
+apiRouter.use('/auth', authRoutes);
 apiRouter.use('/doctors', (req, res) => res.json({ message: 'Doctors Route Stub' }));
 apiRouter.use('/appointments', (req, res) => res.json({ message: 'Appointments Route Stub' }));
 apiRouter.use('/prescriptions', (req, res) => res.json({ message: 'Prescriptions Route Stub' }));
