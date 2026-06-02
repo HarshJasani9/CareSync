@@ -1,7 +1,7 @@
 const Appointment = require('../models/Appointment');
 const Doctor = require('../models/Doctor');
 const User = require('../models/User');
-const sendEmail = require('../utils/sendEmail');
+const { sendEmail, appointmentConfirmedEmail } = require('../utils/sendEmail');
 
 // @desc    Book a new appointment
 // @route   POST /api/appointments
@@ -150,17 +150,15 @@ const updateAppointmentStatus = async (req, res, next) => {
       try {
         await sendEmail({
           to: patient.email,
-          subject: 'CareLink — Appointment Confirmed',
-          html: `
-            <h2>Your appointment has been confirmed!</h2>
-            <p><strong>Doctor:</strong> ${doctorUser.name}</p>
-            <p><strong>Date:</strong> ${new Date(appointment.date).toLocaleDateString()}</p>
-            <p><strong>Time:</strong> ${appointment.timeSlot}</p>
-            <p>Please be on time. You can view your appointment details on your dashboard.</p>
-          `,
+          subject: 'Appointment Confirmed — CareLink',
+          html: appointmentConfirmedEmail({
+            patientName: patient.name,
+            doctorName: doctorUser.name,
+            date: appointment.date,
+            timeSlot: appointment.timeSlot,
+          }),
         });
       } catch (emailError) {
-        // Log but don't fail the request if email fails
         console.error('Email send failed:', emailError.message);
       }
     }

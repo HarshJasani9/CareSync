@@ -4,7 +4,7 @@ const Doctor = require('../models/Doctor');
 const User = require('../models/User');
 const generatePrescriptionPDF = require('../utils/generatePDF');
 const { uploadToCloudinary } = require('../middleware/upload');
-const sendEmail = require('../utils/sendEmail');
+const { sendEmail, prescriptionReadyEmail } = require('../utils/sendEmail');
 
 // @desc    Create a prescription for a confirmed/completed appointment
 // @route   POST /api/prescriptions
@@ -91,16 +91,12 @@ const createPrescription = async (req, res, next) => {
     try {
       await sendEmail({
         to: patient.email,
-        subject: 'CareLink — Your Prescription is Ready',
-        html: `
-          <h2>Your Prescription</h2>
-          <p>Dr. ${doctor.user.name} has issued a prescription for your recent appointment.</p>
-          <p><strong>Diagnosis:</strong> ${diagnosis}</p>
-          <p>You can download your prescription PDF from the link below:</p>
-          <p><a href="${pdfUrl}" style="color: #1D9E75; font-weight: bold;">Download Prescription PDF</a></p>
-          <br/>
-          <p style="color: #6B7280; font-size: 12px;">This is an automated email from CareLink.</p>
-        `,
+        subject: 'Your Prescription is Ready — CareLink',
+        html: prescriptionReadyEmail({
+          patientName: patient.name,
+          doctorName: doctor.user.name,
+          pdfUrl,
+        }),
       });
     } catch (emailError) {
       console.error('Prescription email failed:', emailError.message);

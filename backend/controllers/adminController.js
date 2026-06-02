@@ -1,7 +1,7 @@
 const Doctor = require('../models/Doctor');
 const User = require('../models/User');
 const Appointment = require('../models/Appointment');
-const sendEmail = require('../utils/sendEmail');
+const { sendEmail, doctorApprovalEmail } = require('../utils/sendEmail');
 
 // @desc    Get all doctors with status 'pending'
 // @route   GET /api/admin/doctors/pending
@@ -42,24 +42,15 @@ const approveOrRejectDoctor = async (req, res, next) => {
     doctor.status = action === 'approve' ? 'verified' : 'rejected';
     await doctor.save();
 
-    // Notify the doctor via email
     const isApproved = action === 'approve';
     try {
       await sendEmail({
         to: doctor.user.email,
-        subject: `CareLink — Your Doctor Application has been ${isApproved ? 'Approved' : 'Rejected'}`,
-        html: `
-          <h2>Hello Dr. ${doctor.user.name},</h2>
-          ${
-            isApproved
-              ? `<p>Congratulations! Your doctor profile has been <strong>approved</strong>.</p>
-                 <p>You can now accept appointments and write prescriptions on CareLink.</p>`
-              : `<p>We regret to inform you that your doctor application has been <strong>rejected</strong>.</p>
-                 <p>If you believe this is an error, please contact our support team.</p>`
-          }
-          <br/>
-          <p style="color: #6B7280; font-size: 12px;">— CareLink Team</p>
-        `,
+        subject: `Your CareLink Doctor Account has been ${isApproved ? 'Approved' : 'Rejected'}`,
+        html: doctorApprovalEmail({
+          doctorName: doctor.user.name,
+          status: doctor.status,
+        }),
       });
     } catch (emailError) {
       console.error('Admin notification email failed:', emailError.message);
