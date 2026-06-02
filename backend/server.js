@@ -28,12 +28,13 @@ app.use(limiter);
 
 // Route files
 const authRoutes = require('./routes/auth');
+const doctorRoutes = require('./routes/doctors');
 
 // API Routes
 const apiRouter = express.Router();
 
 apiRouter.use('/auth', authRoutes);
-apiRouter.use('/doctors', (req, res) => res.json({ message: 'Doctors Route Stub' }));
+apiRouter.use('/doctors', doctorRoutes);
 apiRouter.use('/appointments', (req, res) => res.json({ message: 'Appointments Route Stub' }));
 apiRouter.use('/prescriptions', (req, res) => res.json({ message: 'Prescriptions Route Stub' }));
 apiRouter.use('/records', (req, res) => res.json({ message: 'Records Route Stub' }));
