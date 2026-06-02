@@ -1,6 +1,6 @@
 <div align="center">
   
-  # 🏥 CareLink
+  # 🏥 CareSync
 
   **A Modern, Production-Ready Healthcare Management Platform**
 
@@ -13,7 +13,7 @@
 
 <br/>
 
-CareLink is a comprehensive, full-stack healthcare platform built on the **MERN** stack (MongoDB, Express, React/Next.js, Node.js). It seamlessly connects patients with verified medical professionals, handling everything from secure appointment booking and digital PDF prescriptions to health record sharing and administrative oversight.
+CareSync is a comprehensive, full-stack healthcare platform built on the **MERN** stack (MongoDB, Express, React/Next.js, Node.js). It seamlessly connects patients with verified medical professionals, handling everything from secure appointment booking and digital PDF prescriptions to health record sharing and administrative oversight.
 
 ---
 
@@ -62,7 +62,7 @@ CareLink is a comprehensive, full-stack healthcare platform built on the **MERN*
 
 ## 🏗️ System Architecture
 
-CareLink follows a decoupled Client-Server architecture:
+CareSync follows a decoupled Client-Server architecture:
 
 1. **Client Layer (Next.js):** Handles UI rendering, client-side routing, and state management (Zustand). Uses Axios interceptors to attach JWT tokens to every request. Next.js Middleware protects route groups (`/admin`, `/doctor`, `/dashboard`) based on the JWT payload.
 2. **API Layer (Express.js):** RESTful API that processes business logic, validates payloads (express-validator), and handles authorization (`protect` and `authorize` middleware).
@@ -103,8 +103,8 @@ CareLink follows a decoupled Client-Server architecture:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/CareLink.git
-cd CareLink
+git clone https://github.com/yourusername/CareSync.git
+cd CareSync
 ```
 
 ### 2. Backend Setup
@@ -162,7 +162,7 @@ npm run dev
 ## 📁 Folder Structure
 
 ```text
-CareLink/
+CareSync/
 ├── backend/
 │   ├── config/         # Database configuration
 │   ├── controllers/    # API business logic (Auth, Doctors, Appointments, etc.)

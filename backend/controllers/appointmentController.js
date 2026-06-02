@@ -150,7 +150,7 @@ const updateAppointmentStatus = async (req, res, next) => {
       try {
         await sendEmail({
           to: patient.email,
-          subject: 'Appointment Confirmed — CareLink',
+          subject: 'Appointment Confirmed — CareSync',
           html: appointmentConfirmedEmail({
             patientName: patient.name,
             doctorName: doctorUser.name,

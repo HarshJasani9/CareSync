@@ -74,7 +74,7 @@ const createPrescription = async (req, res, next) => {
     const { url: pdfUrl } = await uploadToCloudinary(
       pdfBuffer,
       'application/pdf',
-      'carelink/prescriptions'
+      'caresync/prescriptions'
     );
 
     // Save PDF URL to prescription
@@ -91,7 +91,7 @@ const createPrescription = async (req, res, next) => {
     try {
       await sendEmail({
         to: patient.email,
-        subject: 'Your Prescription is Ready — CareLink',
+        subject: 'Your Prescription is Ready — CareSync',
         html: prescriptionReadyEmail({
           patientName: patient.name,
           doctorName: doctor.user.name,

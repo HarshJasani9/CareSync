@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: carelink-api
+    name: caresync-api
     env: node
     buildCommand: npm install
     startCommand: npm start

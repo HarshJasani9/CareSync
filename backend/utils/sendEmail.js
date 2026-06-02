@@ -56,13 +56,13 @@ const emailLayout = (body) => `
 <body>
   <div class="container">
     <div class="header">
-      <h1>CareLink</h1>
+      <h1>CareSync</h1>
     </div>
     <div class="body">
       ${body}
     </div>
     <div class="footer">
-      This is an automated email from <a href="#">CareLink</a>. Please do not reply.
+      This is an automated email from <a href="#">CareSync</a>. Please do not reply.
     </div>
   </div>
 </body>

@@ -27,7 +27,7 @@ export default function PatientLayout({ children }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
           </div>
-          <span className="text-xl font-bold text-primary-900">CareLink</span>
+          <span className="text-xl font-bold text-primary-900">CareSync</span>
         </div>
 
         <nav className="flex-1 px-4 py-4 space-y-1">

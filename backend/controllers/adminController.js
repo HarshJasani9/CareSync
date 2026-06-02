@@ -46,7 +46,7 @@ const approveOrRejectDoctor = async (req, res, next) => {
     try {
       await sendEmail({
         to: doctor.user.email,
-        subject: `Your CareLink Doctor Account has been ${isApproved ? 'Approved' : 'Rejected'}`,
+        subject: `Your CareSync Doctor Account has been ${isApproved ? 'Approved' : 'Rejected'}`,
         html: doctorApprovalEmail({
           doctorName: doctor.user.name,
           status: doctor.status,

@@ -117,7 +117,7 @@ const updateProfile = async (req, res, next) => {
       const { url } = await uploadToCloudinary(
         req.file.buffer,
         req.file.mimetype,
-        'carelink/avatars'
+        'caresync/avatars'
       );
       fieldsToUpdate.avatar = url;
     }

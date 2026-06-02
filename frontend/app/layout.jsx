@@ -9,7 +9,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata = {
-  title: "CareLink — Healthcare Management",
+  title: "CareSync — Healthcare Management",
   description:
     "Book appointments, manage prescriptions, and access health records — all in one place.",
 };

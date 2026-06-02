@@ -47,7 +47,7 @@ export default function AdminDashboard() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Platform Overview</h1>
-          <p className="text-gray-500 mt-1">Real-time statistics for CareLink</p>
+          <p className="text-gray-500 mt-1">Real-time statistics for CareSync</p>
         </div>
         {stats.pendingDoctors > 0 && (
           <Link

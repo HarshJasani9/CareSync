@@ -34,7 +34,7 @@ const uploadAvatar = multer({ storage, fileFilter: imageOnly, limits }).single('
  * Upload a file buffer to Cloudinary
  * @param {Buffer}  fileBuffer - The file buffer from multer memoryStorage
  * @param {String}  mimeType   - MIME type (e.g. 'image/png', 'application/pdf')
- * @param {String}  folder     - Cloudinary folder (e.g. 'carelink/records')
+ * @param {String}  folder     - Cloudinary folder (e.g. 'caresync/records')
  * @returns {Promise<{ url: String, public_id: String }>}
  */
 const uploadToCloudinary = (fileBuffer, mimeType, folder) => {

@@ -1,7 +1,7 @@
 {
-  "name": "carelink-backend",
+  "name": "caresync-backend",
   "version": "1.0.0",
-  "description": "Backend scaffold for CareLink project",
+  "description": "Backend scaffold for CareSync project",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

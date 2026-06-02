@@ -21,7 +21,7 @@ const uploadRecord = async (req, res, next) => {
     const { url, public_id } = await uploadToCloudinary(
       req.file.buffer,
       req.file.mimetype,
-      'carelink/health-records'
+      'caresync/health-records'
     );
 
     // Create health record

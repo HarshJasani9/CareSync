@@ -67,7 +67,7 @@ export default function LandingPage() {
                 Healthcare that revolves around <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-blue-500">you.</span>
               </h1>
               <p className="text-lg text-gray-600 mb-8 max-w-xl leading-relaxed text-balance">
-                CareLink connects you with top-rated specialists, secures your medical records, and delivers digital prescriptions directly to your device. Seamless, secure, and modern.
+                CareSync connects you with top-rated specialists, secures your medical records, and delivers digital prescriptions directly to your device. Seamless, secure, and modern.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
@@ -114,7 +114,7 @@ export default function LandingPage() {
               <div className="absolute inset-0 bg-gradient-to-tr from-primary-100 to-blue-50 rounded-[3rem] -rotate-3 scale-105 opacity-50 z-0"></div>
               <img 
                 src="/hero-illustration.png" 
-                alt="CareLink 3D Medical Illustration" 
+                alt="CareSync 3D Medical Illustration" 
                 className="relative z-10 w-full max-w-lg object-contain drop-shadow-2xl hover:scale-105 hover:rotate-2 transition-transform duration-700 ease-out"
               />
               
@@ -148,7 +148,7 @@ export default function LandingPage() {
       <section id="features" className="py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-primary-600 font-bold tracking-wide uppercase text-sm mb-3">Why Choose CareLink</h2>
+            <h2 className="text-primary-600 font-bold tracking-wide uppercase text-sm mb-3">Why Choose CareSync</h2>
             <h3 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Everything you need for seamless care</h3>
             <p className="text-lg text-gray-600">We've reimagined the healthcare experience to put you in control. No more waiting on hold or dealing with lost paper prescriptions.</p>
           </div>
@@ -157,7 +157,7 @@ export default function LandingPage() {
             <FeatureCard 
               icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />}
               title="Verified Specialists"
-              description="Our rigorous vetting process ensures every doctor on CareLink is highly qualified, verified, and reviewed by real patients."
+              description="Our rigorous vetting process ensures every doctor on CareSync is highly qualified, verified, and reviewed by real patients."
               color="text-blue-500"
               bgColor="bg-blue-50"
             />
@@ -216,7 +216,7 @@ export default function LandingPage() {
             </div>
             <span className="text-xl font-black text-gray-900 tracking-tight">Care<span className="text-primary-600">Link</span></span>
           </div>
-          <p className="text-gray-500 font-medium text-sm">© 2026 CareLink Technologies. All rights reserved.</p>
+          <p className="text-gray-500 font-medium text-sm">© 2026 CareSync Technologies. All rights reserved.</p>
         </div>
       </footer>
 
