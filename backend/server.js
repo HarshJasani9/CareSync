@@ -33,6 +33,7 @@ const appointmentRoutes = require('./routes/appointments');
 const prescriptionRoutes = require('./routes/prescriptions');
 const recordRoutes = require('./routes/records');
 const reviewRoutes = require('./routes/reviews');
+const adminRoutes = require('./routes/admin');
 
 // API Routes
 const apiRouter = express.Router();
@@ -43,7 +44,7 @@ apiRouter.use('/appointments', appointmentRoutes);
 apiRouter.use('/prescriptions', prescriptionRoutes);
 apiRouter.use('/records', recordRoutes);
 apiRouter.use('/reviews', reviewRoutes);
-apiRouter.use('/admin', (req, res) => res.json({ message: 'Admin Route Stub' }));
+apiRouter.use('/admin', adminRoutes);
 
 // Mount all route files under /api
 app.use('/api', apiRouter);
