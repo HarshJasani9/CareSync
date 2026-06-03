@@ -11,14 +11,14 @@ export default function LandingPage() {
       <nav className="fixed w-full z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30 group-hover:scale-105 transition-transform shrink-0">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
-              <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Care<span className="text-primary-600 dark:text-primary-500">Sync</span></span>
-            </div>
+              <span className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white tracking-tight">Care<span className="text-primary-600 dark:text-primary-500">Sync</span></span>
+            </Link>
             
             <div className="hidden md:flex items-center gap-8 font-medium">
               <Link href="#features" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Features</Link>
@@ -26,7 +26,7 @@ export default function LandingPage() {
               <Link href="#doctors" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">For Doctors</Link>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Link 
                 href="/login" 
                 className="hidden sm:block text-gray-900 dark:text-white font-semibold hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
@@ -35,11 +35,11 @@ export default function LandingPage() {
               </Link>
               <Link 
                 href="/register" 
-                className="px-6 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold rounded-xl hover:bg-black dark:hover:bg-gray-100 hover:shadow-xl hover:shadow-gray-900/20 dark:hover:shadow-white/10 hover:-translate-y-0.5 transition-all duration-200"
+                className="px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold rounded-xl hover:bg-black dark:hover:bg-gray-100 hover:shadow-xl hover:shadow-gray-900/20 dark:hover:shadow-white/10 hover:-translate-y-0.5 transition-all duration-200 shrink-0"
               >
                 Get Started
               </Link>
-              <div className="pl-4 border-l border-gray-200 dark:border-gray-800 ml-2">
+              <div className="pl-2 sm:pl-4 border-l border-gray-200 dark:border-gray-800 ml-1 sm:ml-2">
                 <ThemeToggle />
               </div>
             </div>
@@ -67,7 +67,7 @@ export default function LandingPage() {
                 </span>
                 The Future of Healthcare Management
               </div>
-              <h1 className="text-5xl lg:text-7xl font-black text-gray-900 dark:text-white leading-[1.1] mb-6 tracking-tight text-balance transition-colors">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-gray-900 dark:text-white leading-[1.1] mb-6 tracking-tight text-balance transition-colors">
                 Healthcare that revolves around <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-blue-500 dark:from-primary-400 dark:to-blue-400">you.</span>
               </h1>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-xl leading-relaxed text-balance transition-colors">
@@ -91,7 +91,7 @@ export default function LandingPage() {
               </div>
 
               {/* Trust badges */}
-              <div className="mt-10 flex items-center gap-6 pt-10 border-t border-gray-200/60 dark:border-gray-800 transition-colors">
+              <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 pt-10 border-t border-gray-200/60 dark:border-gray-800 transition-colors">
                 <div className="flex -space-x-4">
                   {[...Array(4)].map((_, i) => (
                     <div key={i} className={`w-10 h-10 rounded-full border-2 border-white dark:border-gray-950 bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-sm font-bold shadow-sm overflow-hidden`}>
@@ -123,7 +123,7 @@ export default function LandingPage() {
               />
               
               {/* Floating Cards */}
-              <div className="absolute top-10 -left-6 bg-white dark:bg-gray-900 p-4 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-gray-800 z-20 flex items-center gap-3 animate-float transition-colors">
+              <div className="hidden sm:flex absolute top-10 -left-6 bg-white dark:bg-gray-900 p-4 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-gray-800 z-20 items-center gap-3 animate-float transition-colors">
                 <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 dark:text-green-400">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                 </div>
@@ -133,7 +133,7 @@ export default function LandingPage() {
                 </div>
               </div>
               
-              <div className="absolute bottom-10 -right-6 bg-white dark:bg-gray-900 p-4 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-gray-800 z-20 flex items-center gap-3 animate-float animation-delay-2000 transition-colors">
+              <div className="hidden sm:flex absolute bottom-10 -right-6 bg-white dark:bg-gray-900 p-4 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-gray-800 z-20 items-center gap-3 animate-float animation-delay-2000 transition-colors">
                 <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                 </div>

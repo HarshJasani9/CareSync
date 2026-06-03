@@ -11,13 +11,13 @@ export default function HowItWorksPage() {
       <nav className="fixed w-full z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-primary-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30 group-hover:scale-105 transition-transform">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30 group-hover:scale-105 transition-transform shrink-0">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
-              <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Care<span className="text-primary-600 dark:text-primary-500">Sync</span></span>
+              <span className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white tracking-tight">Care<span className="text-primary-600 dark:text-primary-500">Sync</span></span>
             </Link>
             
             <div className="hidden md:flex items-center gap-8 font-medium">
@@ -26,7 +26,7 @@ export default function HowItWorksPage() {
               <Link href="/#doctors" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">For Doctors</Link>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Link 
                 href="/login" 
                 className="hidden sm:block text-gray-900 dark:text-white font-semibold hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
@@ -35,11 +35,11 @@ export default function HowItWorksPage() {
               </Link>
               <Link 
                 href="/register" 
-                className="px-6 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold rounded-xl hover:bg-black dark:hover:bg-gray-100 hover:shadow-xl hover:shadow-gray-900/20 dark:hover:shadow-white/10 hover:-translate-y-0.5 transition-all duration-200"
+                className="px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold rounded-xl hover:bg-black dark:hover:bg-gray-100 hover:shadow-xl hover:shadow-gray-900/20 dark:hover:shadow-white/10 hover:-translate-y-0.5 transition-all duration-200 shrink-0"
               >
                 Get Started
               </Link>
-              <div className="pl-4 border-l border-gray-200 dark:border-gray-800 ml-2">
+              <div className="pl-2 sm:pl-4 border-l border-gray-200 dark:border-gray-800 ml-1 sm:ml-2">
                 <ThemeToggle />
               </div>
             </div>
@@ -54,7 +54,7 @@ export default function HowItWorksPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-gray-900 text-primary-700 dark:text-primary-400 text-sm font-semibold mb-6 shadow-sm border border-primary-100 dark:border-gray-800">
             Simple, Transparent, Fast
           </div>
-          <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
             How CareSync Works
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 text-balance leading-relaxed">
