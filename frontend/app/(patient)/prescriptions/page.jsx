@@ -80,7 +80,7 @@ export default function PatientPrescriptionsPage() {
             <FileText className="w-10 h-10 text-gray-400 dark:text-dark-text-muted" />
           </div>
           <h3 className="text-xl font-bold text-gray-900 dark:text-dark-text-primary mb-2">No prescriptions found</h3>
-          <p className="text-gray-500 dark:text-dark-text-secondary font-medium">You haven't received any prescriptions yet.</p>
+          <p className="text-gray-500 dark:text-dark-text-secondary font-medium">You haven&apos;t received any prescriptions yet.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -153,7 +153,7 @@ export default function PatientPrescriptionsPage() {
 
               {prescription.instructions && (
                 <div className="mt-8 pt-6 border-t border-gray-100 dark:border-dark-border">
-                  <h4 className="text-xs font-bold text-gray-500 dark:text-dark-text-muted mb-2 uppercase tracking-wider">Doctor's Notes</h4>
+                  <h4 className="text-xs font-bold text-gray-500 dark:text-dark-text-muted mb-2 uppercase tracking-wider">Doctor&apos;s Notes</h4>
                   <p className="text-sm text-gray-700 dark:text-dark-text-secondary font-medium">{prescription.instructions}</p>
                 </div>
               )}

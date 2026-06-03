@@ -154,7 +154,7 @@ export default function LandingPage() {
           <div className="text-center max-w-3xl mx-auto mb-20">
             <h2 className="text-primary-600 dark:text-primary-500 font-bold tracking-wide uppercase text-sm mb-3">Why Choose CareSync</h2>
             <h3 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">Everything you need for seamless care</h3>
-            <p className="text-lg text-gray-600 dark:text-gray-300">We've reimagined the healthcare experience to put you in control. No more waiting on hold or dealing with lost paper prescriptions.</p>
+            <p className="text-lg text-gray-600 dark:text-gray-300">We&apos;ve reimagined the healthcare experience to put you in control. No more waiting on hold or dealing with lost paper prescriptions.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">

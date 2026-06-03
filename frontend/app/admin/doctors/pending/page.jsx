@@ -111,7 +111,7 @@ export default function PendingDoctorsPage() {
           <div className="w-20 h-20 bg-primary-50 dark:bg-primary-900/20 rounded-full flex items-center justify-center mb-6">
              <svg className="w-10 h-10 text-primary-500 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">You're all caught up!</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">You&apos;re all caught up!</h3>
           <p className="text-gray-500 dark:text-gray-400 max-w-sm">There are no pending doctor applications to review at this time. Great job staying on top of things!</p>
         </div>
       )}

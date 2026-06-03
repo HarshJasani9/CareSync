@@ -218,7 +218,7 @@ export default function PrescriptionDetailPage() {
         {/* Doctor's Instructions */}
         {prescription.instructions && (
           <div className="p-8">
-            <h3 className="text-sm font-bold text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider mb-3">Doctor's Instructions</h3>
+            <h3 className="text-sm font-bold text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider mb-3">Doctor&apos;s Instructions</h3>
             <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 p-5 rounded-[1.5rem]">
               <div className="flex gap-3">
                 <svg className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

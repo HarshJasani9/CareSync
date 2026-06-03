@@ -117,7 +117,7 @@ export default function DoctorDashboard() {
                     </div>
                   </div>
                   <div className="text-sm text-gray-600 bg-gray-50 p-2 rounded-lg italic">
-                    "{req.reason}"
+                    &quot;{req.reason}&quot;
                   </div>
                   <div className="flex gap-2 mt-2">
                     <button onClick={() => handleStatusUpdate(req._id, 'confirmed')} disabled={doctorProfile?.status !== 'verified'} className="flex-1 py-2 text-xs font-semibold bg-primary-50 text-primary-700 hover:bg-primary-100 rounded-lg transition-colors disabled:opacity-50">Confirm</button>
@@ -133,7 +133,7 @@ export default function DoctorDashboard() {
 
         {/* Today's Schedule */}
         <div className="lg:col-span-2 space-y-6">
-          <h2 className="text-lg font-bold text-gray-900">Today's Schedule</h2>
+          <h2 className="text-lg font-bold text-gray-900">Today&apos;s Schedule</h2>
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             {todaysAppointments.length > 0 ? (
               <div className="space-y-4">

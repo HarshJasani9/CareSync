@@ -202,7 +202,7 @@ export default function DoctorProfilePage() {
                   <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">Available Slots</label>
                   {!hasAnySlots ? (
                     <p className="text-sm font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 p-4 rounded-[1.5rem]">
-                      This doctor hasn't set up their availability schedule yet. Please check back later or contact them directly.
+                      This doctor hasn&apos;t set up their availability schedule yet. Please check back later or contact them directly.
                     </p>
                   ) : availableTimeSlots.length > 0 ? (
                     <div className="grid grid-cols-2 gap-3">

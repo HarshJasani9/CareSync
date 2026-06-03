@@ -7,7 +7,9 @@ import api from '@/lib/axios';
 import { toast } from 'sonner';
 import Link from 'next/link';
 
-export default function WritePrescriptionPage() {
+import { Suspense } from 'react';
+
+function WritePrescriptionForm() {
   const searchParams = useSearchParams();
   const appointmentId = searchParams.get('appointmentId');
   const router = useRouter();
@@ -96,15 +98,15 @@ export default function WritePrescriptionPage() {
       <div className="bg-primary-50 rounded-2xl p-6 mb-8 border border-primary-100 flex flex-wrap gap-x-8 gap-y-4">
         <div>
           <p className="text-xs font-semibold text-primary-600 uppercase tracking-wider mb-1">Patient</p>
-          <p className="font-bold text-gray-900">{appointment.patient?.name}</p>
+          <p className="font-bold text-gray-900">{appointment?.patient?.name}</p>
         </div>
         <div>
           <p className="text-xs font-semibold text-primary-600 uppercase tracking-wider mb-1">Date</p>
-          <p className="font-medium text-gray-900">{new Date(appointment.date).toLocaleDateString()}</p>
+          <p className="font-medium text-gray-900">{appointment?.date ? new Date(appointment.date).toLocaleDateString() : ''}</p>
         </div>
         <div>
           <p className="text-xs font-semibold text-primary-600 uppercase tracking-wider mb-1">Reason for visit</p>
-          <p className="font-medium text-gray-900 max-w-md">{appointment.reason}</p>
+          <p className="font-medium text-gray-900 max-w-md">{appointment?.reason}</p>
         </div>
       </div>
 
@@ -215,5 +217,13 @@ export default function WritePrescriptionPage() {
         </div>
       </form>
     </div>
+  );
+}
+
+export default function WritePrescriptionPage() {
+  return (
+    <Suspense fallback={<div className="p-8 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div></div>}>
+      <WritePrescriptionForm />
+    </Suspense>
   );
 }

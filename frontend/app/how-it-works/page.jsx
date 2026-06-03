@@ -58,7 +58,7 @@ export default function HowItWorksPage() {
             How CareSync Works
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 text-balance leading-relaxed">
-            Whether you're a patient looking for care or a doctor managing your practice, we've streamlined every step of the journey so you can focus on what matters most: Health.
+            Whether you&apos;re a patient looking for care or a doctor managing your practice, we&apos;ve streamlined every step of the journey so you can focus on what matters most: Health.
           </p>
         </div>
       </section>
