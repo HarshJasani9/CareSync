@@ -46,21 +46,25 @@ const register = async (req, res, next) => {
 // @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
-const login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-
-    // Find user and include password field
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
-
-    // Verify password
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
+  const login = async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+      console.log('Login attempt for:', email);
+      console.log('Password provided:', password);
+  
+      // Find user and include password field
+      const user = await User.findOne({ email }).select('+password');
+      if (!user) {
+        console.log('User not found in DB');
+        return res.status(401).json({ success: false, message: 'Invalid credentials (User not found)' });
+      }
+  
+      // Verify password
+      const isMatch = await user.matchPassword(password);
+      console.log('Password match result:', isMatch);
+      if (!isMatch) {
+        return res.status(401).json({ success: false, message: 'Invalid credentials (Password mismatch)' });
+      }
 
     // Generate JWT
     const token = user.getSignedJwtToken();

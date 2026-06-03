@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: DashboardIcon },
@@ -32,12 +33,15 @@ export default function AdminLayout({ children }) {
           </div>
           <span className="text-xl font-bold text-white">AdminSync</span>
         </div>
-        <button 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 text-primary-100 hover:bg-white/10 rounded-lg transition-colors"
-        >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 text-primary-100 hover:bg-white/10 rounded-lg transition-colors"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Overlay */}
@@ -83,13 +87,18 @@ export default function AdminLayout({ children }) {
 
         <div className="p-4 border-t border-primary-800/50 dark:border-gray-800">
           <div className="flex items-center gap-3 px-3 py-2 mb-4">
-            <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white font-bold shrink-0">
-              {user?.name?.charAt(0) || 'A'}
+            <div className="w-9 h-9 rounded-[0.8rem] bg-white/10 flex items-center justify-center text-white font-bold shrink-0 overflow-hidden">
+              {user?.avatar ? (
+                <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+              ) : (
+                user?.name?.charAt(0) || 'A'
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-white truncate">{user?.name || 'Administrator'}</p>
               <p className="text-xs text-primary-200/80 dark:text-gray-500 truncate">System Access</p>
             </div>
+            <ThemeToggle />
           </div>
           <button
             onClick={logout}
