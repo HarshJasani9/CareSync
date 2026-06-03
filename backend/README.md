@@ -83,7 +83,23 @@ backend/
    ```bash
    cp .env.example .env
    ```
-   *(Update the `.env` file with your specific credentials, refer to the root README for more details)*
+   *Your `.env` should look like this (replace with your actual credentials):*
+   ```env
+   PORT=5000
+   MONGO_URI=mongodb://localhost:27017/caresync
+   JWT_SECRET=your_jwt_secret_key_here
+   JWT_EXPIRE=30d
+   
+   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+   CLOUDINARY_API_KEY=your_cloudinary_api_key
+   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+   
+   EMAIL_HOST=smtp.resend.com
+   EMAIL_PORT=465
+   EMAIL_USER=resend
+   EMAIL_PASS=your_resend_api_key
+   EMAIL_FROM=onboarding@resend.dev
+   ```
 3. Start the development server (uses `nodemon` for hot-reloading):
    ```bash
    npm run dev

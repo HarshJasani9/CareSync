@@ -94,7 +94,10 @@ On the client side, Zustand manages the authenticated user's state. When a user 
    ```bash
    cp .env.example .env.local
    ```
-   *(Ensure the `NEXT_PUBLIC_API_URL` points to your backend instance)*
+   *Your `.env.local` should look like this:*
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:5000/api
+   ```
 
 3. Start the development server:
    ```bash
