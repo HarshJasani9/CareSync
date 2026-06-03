@@ -25,7 +25,7 @@ export default function DoctorProfilePage() {
     const fetchProfile = async () => {
       try {
         const res = await api.get('/auth/me');
-        const doc = res.data.data.doctor;
+        const doc = res.data.data.doctorProfile;
         setProfile(doc);
         setBio(doc.bio || '');
         setSpecialization(doc.specialization || '');

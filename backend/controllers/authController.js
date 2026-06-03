@@ -49,30 +49,37 @@ const register = async (req, res, next) => {
   const login = async (req, res, next) => {
     try {
       const { email, password } = req.body;
-      console.log('Login attempt for:', email);
-      console.log('Password provided:', password);
-  
+
       // Find user and include password field
       const user = await User.findOne({ email }).select('+password');
       if (!user) {
-        console.log('User not found in DB');
-        return res.status(401).json({ success: false, message: 'Invalid credentials (User not found)' });
+        return res.status(401).json({ success: false, message: 'Incorrect email or password. Please try again.' });
       }
-  
+
       // Verify password
       const isMatch = await user.matchPassword(password);
-      console.log('Password match result:', isMatch);
       if (!isMatch) {
-        return res.status(401).json({ success: false, message: 'Invalid credentials (Password mismatch)' });
+        return res.status(401).json({ success: false, message: 'Incorrect email or password. Please try again.' });
       }
 
     // Generate JWT
     const token = user.getSignedJwtToken();
 
+    // Build response user object
+    const userData = { id: user._id, name: user.name, email: user.email, role: user.role, avatar: user.avatar };
+
+    // If doctor, include their doctor profile (with verification status)
+    if (user.role === 'doctor') {
+      const doctorProfile = await Doctor.findOne({ user: user._id });
+      if (doctorProfile) {
+        userData.doctorProfile = doctorProfile;
+      }
+    }
+
     res.status(200).json({
       success: true,
       token,
-      user: { id: user._id, name: user.name, email: user.email, role: user.role },
+      user: userData,
     });
   } catch (error) {
     next(error);

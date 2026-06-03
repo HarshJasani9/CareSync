@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import { toast } from 'sonner';
 
@@ -8,6 +9,7 @@ export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState('All');
+  const router = useRouter();
 
   // Review Modal State
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
@@ -103,7 +105,11 @@ export default function AppointmentsPage() {
       <div className="grid gap-6">
         {filteredAppointments.length > 0 ? (
           filteredAppointments.map((apt) => (
-            <div key={apt._id} className="bg-white dark:bg-gray-900 p-6 sm:p-8 rounded-[2rem] border-0 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-md transition-all group">
+            <div 
+              key={apt._id} 
+              onClick={() => router.push(`/appointments/${apt._id}`)}
+              className="bg-white dark:bg-dark-card p-6 sm:p-8 rounded-[2rem] border-0 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-md transition-all group cursor-pointer"
+            >
               <div className="flex items-center gap-5">
                 <div className="w-16 h-16 rounded-[1.5rem] bg-primary-100 dark:bg-primary-900/50 overflow-hidden shrink-0 border border-primary-200 dark:border-primary-800/50 flex items-center justify-center">
                   {apt.doctor?.user?.avatar ? (
@@ -143,7 +149,10 @@ export default function AppointmentsPage() {
                 <div className="flex gap-2">
                   {(apt.status === 'pending' || apt.status === 'confirmed') && (
                     <button
-                      onClick={() => handleCancel(apt._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCancel(apt._id);
+                      }}
                       className="px-4 py-2 text-sm font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 rounded-[1rem] transition-colors"
                     >
                       Cancel
@@ -151,7 +160,8 @@ export default function AppointmentsPage() {
                   )}
                   {apt.status === 'completed' && (
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSelectedAppointment(apt);
                         setRating(0);
                         setComment('');
