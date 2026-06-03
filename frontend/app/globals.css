@@ -14,7 +14,7 @@ body {
 }
 
 /* =========================================
-   Theme Toggle View Transition (Right Swipe)
+   Premium Theme Toggle View Transition (Circular Reveal)
    ========================================= */
 
 ::view-transition-old(root),
@@ -23,30 +23,27 @@ body {
   mix-blend-mode: normal;
 }
 
-/* When switching to DARK mode (New view swipes in from left to right) */
+/* The new view reveals as an expanding circle */
+::view-transition-new(root) {
+  z-index: 9999;
+  animation: circle-reveal 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
 ::view-transition-old(root) {
   z-index: 1;
 }
-::view-transition-new(root) {
-  z-index: 9999;
-  animation: swipe-right 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
 
-/* When switching to LIGHT mode (Old dark view swipes away from left to right) */
-.dark::view-transition-old(root) {
-  z-index: 9999;
-  animation: swipe-right 0.6s cubic-bezier(0.25, 1, 0.5, 1) reverse;
-}
-.dark::view-transition-new(root) {
-  z-index: 1;
-}
+/* 
+  By default, next-themes removes .dark instantly, so we just use 
+  the same expanding circle for both directions. It looks like a ripple!
+*/
 
-@keyframes swipe-right {
+@keyframes circle-reveal {
   from {
-    clip-path: inset(0 100% 0 0);
+    clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
   }
   to {
-    clip-path: inset(0 0 0 0);
+    clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
   }
 }
 

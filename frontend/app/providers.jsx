@@ -13,7 +13,7 @@ export default function Providers({ children }) {
   }, [initAuth]);
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
       {children}
       <Toaster
         position="top-right"

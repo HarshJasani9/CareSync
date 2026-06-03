@@ -25,6 +25,17 @@ module.exports = {
           DEFAULT: '#FFFFFF',
           muted: '#F4F6F8',
         },
+        dark: {
+          bg: '#0F1117',
+          sidebar: '#141920',
+          card: '#1C2333',
+          border: '#2A3447',
+          text: {
+            primary: '#F0F4F8',
+            secondary: '#8B9CB5',
+            muted: '#4A5568'
+          }
+        },
         background: "var(--background)",
         foreground: "var(--foreground)",
       },

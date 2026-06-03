@@ -4,12 +4,13 @@ import { useState, useEffect, useRef } from 'react';
 import api from '@/lib/axios';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/authStore';
-import { Camera, User, Phone, Calendar, Droplet, Mail, Save, Loader2 } from 'lucide-react';
+import { Camera, User, Phone, Calendar, Droplet, Mail, Save, Loader2, Edit3, X } from 'lucide-react';
 
 export default function PatientProfilePage() {
   const { user, setUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
@@ -89,6 +90,7 @@ export default function PatientProfilePage() {
       setUser({ ...user, ...res.data.data });
       setAvatarPreview(res.data.data.avatar);
       setSelectedFile(null);
+      setIsEditing(false);
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to update profile');
     } finally {
@@ -107,9 +109,31 @@ export default function PatientProfilePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Profile</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">Manage your personal information and preferences.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Profile</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">Manage your personal information and preferences.</p>
+        </div>
+        {!isEditing ? (
+          <button 
+            onClick={() => setIsEditing(true)}
+            className="flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm transition-all"
+          >
+            <Edit3 className="w-4 h-4" />
+            Edit Profile
+          </button>
+        ) : (
+          <button 
+            onClick={() => {
+              setIsEditing(false);
+              fetchProfile(); // Reset fields if cancelled
+            }}
+            className="flex items-center gap-2 px-5 py-2.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl text-sm font-bold hover:bg-red-100 dark:hover:bg-red-900/40 transition-all"
+          >
+            <X className="w-4 h-4" />
+            Cancel
+          </button>
+        )}
       </div>
 
       <div className="bg-white dark:bg-gray-900 rounded-[2rem] border-0 shadow-sm p-8 lg:p-10">
@@ -125,21 +149,23 @@ export default function PatientProfilePage() {
                   <span className="text-4xl font-bold text-primary-500 dark:text-primary-400">{formData.name?.charAt(0) || 'P'}</span>
                 )}
               </div>
-              
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="absolute -bottom-3 -right-3 p-2.5 bg-primary-500 hover:bg-primary-600 text-white rounded-xl shadow-lg transition-colors"
-                title="Change Avatar"
-              >
-                <Camera className="w-4 h-4" />
-              </button>
+              {isEditing && (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="absolute -bottom-3 -right-3 p-2.5 bg-primary-500 hover:bg-primary-600 text-white rounded-xl shadow-lg transition-colors"
+                  title="Change Avatar"
+                >
+                  <Camera className="w-4 h-4" />
+                </button>
+              )}
               <input
                 type="file"
                 ref={fileInputRef}
                 className="hidden"
                 accept="image/*"
                 onChange={handleFileChange}
+                disabled={!isEditing}
               />
             </div>
             <div className="text-center sm:text-left">
@@ -164,7 +190,8 @@ export default function PatientProfilePage() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-4 py-3.5 rounded-[1.2rem] border-0 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                  disabled={!isEditing}
+                  className="w-full pl-12 pr-4 py-3.5 rounded-[1.2rem] border-0 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary-500 outline-none transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                   placeholder="John Doe"
                 />
               </div>
@@ -199,7 +226,8 @@ export default function PatientProfilePage() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-3.5 rounded-[1.2rem] border-0 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                  disabled={!isEditing}
+                  className="w-full pl-12 pr-4 py-3.5 rounded-[1.2rem] border-0 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary-500 outline-none transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                   placeholder="+1 (555) 000-0000"
                 />
               </div>
@@ -217,8 +245,9 @@ export default function PatientProfilePage() {
                   name="dateOfBirth"
                   value={formData.dateOfBirth}
                   onChange={handleChange}
+                  disabled={!isEditing}
                   max={new Date().toISOString().split('T')[0]}
-                  className="w-full pl-12 pr-4 py-3.5 rounded-[1.2rem] border-0 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                  className="w-full pl-12 pr-4 py-3.5 rounded-[1.2rem] border-0 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary-500 outline-none transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                 />
               </div>
             </div>
@@ -234,7 +263,8 @@ export default function PatientProfilePage() {
                   name="bloodGroup"
                   value={formData.bloodGroup}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-3.5 rounded-[1.2rem] border-0 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary-500 outline-none transition-all appearance-none"
+                  disabled={!isEditing}
+                  className="w-full pl-12 pr-4 py-3.5 rounded-[1.2rem] border-0 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-primary-500 outline-none transition-all appearance-none disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   <option value="">Select Blood Group</option>
                   {['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'].map(bg => (
@@ -246,25 +276,27 @@ export default function PatientProfilePage() {
 
           </div>
 
-          <div className="pt-6 border-t border-gray-100 dark:border-gray-800 flex justify-end">
-            <button
-              type="submit"
-              disabled={isSaving}
-              className="px-8 py-3.5 bg-primary-500 hover:bg-primary-600 text-white font-bold text-md rounded-[1.2rem] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg flex items-center gap-2"
-            >
-              {isSaving ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save className="w-5 h-5" />
-                  Save Changes
-                </>
-              )}
-            </button>
-          </div>
+          {isEditing && (
+            <div className="pt-6 border-t border-gray-100 dark:border-gray-800 flex justify-end">
+              <button
+                type="submit"
+                disabled={isSaving}
+                className="px-8 py-3.5 bg-primary-500 hover:bg-primary-600 text-white font-bold text-md rounded-[1.2rem] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg flex items-center gap-2"
+              >
+                {isSaving ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-5 h-5" />
+                    Save Changes
+                  </>
+                )}
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

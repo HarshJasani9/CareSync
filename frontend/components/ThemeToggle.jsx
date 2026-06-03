@@ -19,7 +19,7 @@ export default function ThemeToggle() {
 
   const isDark = theme === 'dark';
 
-  const toggleTheme = () => {
+  const toggleTheme = (e) => {
     const nextTheme = isDark ? 'light' : 'dark';
     
     // Fallback if browser doesn't support View Transitions API
@@ -27,6 +27,12 @@ export default function ThemeToggle() {
       setTheme(nextTheme);
       return;
     }
+
+    // Get click coordinates for the circle reveal origin
+    const x = e.clientX;
+    const y = e.clientY;
+    document.documentElement.style.setProperty('--x', `${x}px`);
+    document.documentElement.style.setProperty('--y', `${y}px`);
 
     // Trigger the swipe transition
     document.startViewTransition(() => {
