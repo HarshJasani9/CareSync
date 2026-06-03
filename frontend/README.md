@@ -90,10 +90,12 @@ On the client side, Zustand manages the authenticated user's state. When a user 
    ```bash
    npm install
    ```
-2. Set up your `.env.local` file:
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:5000/api
+2. Set up your `.env.local` file by copying the example:
+   ```bash
+   cp .env.example .env.local
    ```
+   *(Ensure the `NEXT_PUBLIC_API_URL` points to your backend instance)*
+
 3. Start the development server:
    ```bash
    npm run dev

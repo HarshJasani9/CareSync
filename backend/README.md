@@ -79,7 +79,11 @@ backend/
    ```bash
    npm install
    ```
-2. Set up your `.env` file (refer to the root README for required variables).
+2. Set up your environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+   *(Update the `.env` file with your specific credentials, refer to the root README for more details)*
 3. Start the development server (uses `nodemon` for hot-reloading):
    ```bash
    npm run dev

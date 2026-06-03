@@ -113,7 +113,11 @@ cd backend
 npm install
 ```
 
-Create a `.env` file in the `backend` directory:
+Copy the provided `.env.example` file to create your `.env` file:
+```bash
+cp .env.example .env
+```
+Then, update the `.env` file with your specific credentials:
 ```env
 PORT=5000
 NODE_ENV=development
@@ -147,7 +151,11 @@ cd frontend
 npm install
 ```
 
-Create a `.env.local` file in the `frontend` directory:
+Copy the provided `.env.example` file to create your `.env.local` file:
+```bash
+cp .env.example .env.local
+```
+Then, ensure the API URL points to your backend:
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
 ```
