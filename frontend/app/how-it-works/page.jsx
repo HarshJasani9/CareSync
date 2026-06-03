@@ -185,7 +185,7 @@ export default function HowItWorksPage() {
 function StepCard({ number, title, description, icon, color = "text-primary-600 dark:text-primary-400", bgColor = "bg-primary-50 dark:bg-primary-900/20" }) {
   return (
     <div className="group relative bg-white dark:bg-gray-900 p-8 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:border-gray-200 dark:hover:border-gray-700 hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-none transition-all duration-300 hover:-translate-y-1">
-      <div className="absolute top-6 right-6 text-6xl font-black text-gray-50 dark:text-gray-800/50 group-hover:text-gray-100 dark:group-hover:text-gray-800 transition-colors pointer-events-none select-none z-0">
+      <div className="absolute top-6 right-6 text-6xl font-black text-gray-300 dark:text-gray-600 group-hover:text-gray-400 dark:group-hover:text-gray-500 transition-colors pointer-events-none select-none z-0">
         {number}
       </div>
       <div className={`relative z-10 w-14 h-14 rounded-2xl ${bgColor} ${color} flex items-center justify-center mb-6`}>
