@@ -15,6 +15,11 @@ export const useAuthStore = create((set) => ({
     set({ user, token, role: user?.role || null, isLoading: false });
   },
 
+  // Update just the user data without modifying the token
+  setUser: (userData) => {
+    set((state) => ({ user: { ...state.user, ...userData } }));
+  },
+
   // Clear all auth state and redirect to login
   logout: () => {
     if (typeof window !== 'undefined') {
@@ -25,8 +30,8 @@ export const useAuthStore = create((set) => ({
     set({ user: null, token: null, role: null, isLoading: false });
   },
 
-  // Hydrate auth state from localStorage on app mount
-  initAuth: () => {
+    // Hydrate auth state from localStorage on app mount
+  initAuth: async () => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('cl_token');
       if (token) {
@@ -38,6 +43,15 @@ export const useAuthStore = create((set) => ({
             role: payload.role,
             isLoading: false,
           });
+
+          // Fetch full user profile asynchronously
+          const api = require('@/lib/axios').default;
+          try {
+             const res = await api.get('/auth/me');
+             set((state) => ({ user: { ...state.user, ...res.data.data } }));
+          } catch (err) {
+             console.error('Failed to fetch full user profile');
+          }
         } catch {
           localStorage.removeItem('cl_token');
           document.cookie = 'cl_token=; path=/; max-age=0';

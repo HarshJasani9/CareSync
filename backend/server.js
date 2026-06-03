@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -25,7 +26,9 @@ if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1);
 }
 
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true
@@ -33,6 +36,9 @@ app.use(cors({
 app.use(express.json()); // Body parser for JSON
 app.use(morgan('dev'));
 app.use(limiter);
+
+// Serve static files from the public/uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Route files
 const authRoutes = require('./routes/auth');

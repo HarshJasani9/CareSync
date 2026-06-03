@@ -30,8 +30,11 @@ const limits = { fileSize: 10 * 1024 * 1024 }; // 10MB max
 const uploadSingle = multer({ storage, fileFilter, limits }).single('file');
 const uploadAvatar = multer({ storage, fileFilter: imageOnly, limits }).single('avatar');
 
+const fs = require('fs');
+const path = require('path');
+
 /**
- * Upload a file buffer to Cloudinary
+ * Upload a file buffer to Local Storage (Bypassing Cloudinary)
  * @param {Buffer}  fileBuffer - The file buffer from multer memoryStorage
  * @param {String}  mimeType   - MIME type (e.g. 'image/png', 'application/pdf')
  * @param {String}  folder     - Cloudinary folder (e.g. 'caresync/records')
@@ -39,22 +42,25 @@ const uploadAvatar = multer({ storage, fileFilter: imageOnly, limits }).single('
  */
 const uploadToCloudinary = (fileBuffer, mimeType, folder) => {
   return new Promise((resolve, reject) => {
-    const resourceType = mimeType === 'application/pdf' ? 'raw' : 'image';
-
-    const stream = cloudinary.uploader.upload_stream(
-      {
-        folder,
-        resource_type: resourceType,
-      },
-      (error, result) => {
-        if (error) {
-          return reject(error);
-        }
-        resolve({ url: result.secure_url, public_id: result.public_id });
+    try {
+      const ext = mimeType === 'application/pdf' ? '.pdf' : mimeType === 'image/png' ? '.png' : '.jpg';
+      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+      
+      // Ensure folder exists
+      const uploadDir = path.join(__dirname, '../public/uploads', folder);
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
       }
-    );
 
-    stream.end(fileBuffer);
+      const filePath = path.join(uploadDir, filename);
+      fs.writeFileSync(filePath, fileBuffer);
+
+      // Return local URL
+      const url = `http://localhost:5000/uploads/${folder}/${filename}`;
+      resolve({ url, public_id: filename });
+    } catch (error) {
+      reject(error);
+    }
   });
 };
 
