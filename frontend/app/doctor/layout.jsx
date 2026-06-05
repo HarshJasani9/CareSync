@@ -22,23 +22,23 @@ export default function DoctorLayout({ children }) {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <div className="min-h-screen bg-surface-muted dark:bg-gray-950 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#F4F7F6] dark:bg-dark-bg flex flex-col md:flex-row">
       
       {/* Mobile Top Bar */}
-      <div className="md:hidden flex items-center justify-between p-4 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 z-30 sticky top-0">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+      <div className="md:hidden flex items-center justify-between p-4 bg-blue-900 dark:bg-dark-sidebar border-b border-blue-800 dark:border-dark-border z-30 sticky top-0 text-white">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </div>
-          <span className="text-xl font-bold text-gray-900 dark:text-white">CareSync</span>
+          <span className="text-xl font-bold text-white">CareSync</span>
         </div>
         <div className="flex items-center gap-4">
           <ThemeToggle />
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+            className="p-2 text-blue-100 hover:bg-white/10 rounded-lg transition-colors"
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -54,17 +54,18 @@ export default function DoctorLayout({ children }) {
       )}
 
       {/* Sidebar */}
-      <aside className={`w-64 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 fixed inset-y-0 left-0 z-50 flex flex-col transform transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="p-6 hidden md:flex items-center gap-3">
-          <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+      <aside className={`w-64 bg-blue-900 dark:bg-dark-sidebar border-r border-blue-800 dark:border-dark-border fixed inset-y-0 left-0 z-50 flex flex-col text-blue-50 transform transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="p-6 hidden md:flex items-center gap-3 border-b border-blue-800/50 dark:border-dark-border">
+          <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
           </div>
-          <span className="text-xl font-bold text-gray-900 dark:text-white">CareSync</span>
+          <span className="text-xl font-bold text-white">CareSync</span>
         </div>
 
-        <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto mt-4 md:mt-0">
+        <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto mt-4 md:mt-0">
+          <div className="px-3 mb-2 text-xs font-semibold text-blue-200/60 dark:text-dark-text-secondary uppercase tracking-wider">Practice</div>
           {navigation.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
             return (
@@ -74,20 +75,20 @@ export default function DoctorLayout({ children }) {
                 onClick={closeMobileMenu}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200'
+                    ? 'bg-white/10 text-white'
+                    : 'text-blue-200 hover:bg-white/5 hover:text-white dark:text-dark-text-secondary dark:hover:bg-white/5 dark:hover:text-dark-text-primary'
                 }`}
               >
-                <item.icon className={`w-5 h-5 ${isActive ? 'text-blue-600 dark:text-blue-500' : 'text-gray-400 dark:text-gray-500'}`} />
+                <item.icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-blue-300 dark:text-dark-text-muted'}`} />
                 {item.name}
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-100 dark:border-gray-800">
+        <div className="p-4 border-t border-blue-800/50 dark:border-dark-border">
           <div className="flex items-center gap-3 px-3 py-2 mb-4">
-            <Link href="/doctor/profile" className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-700 dark:text-blue-400 font-bold shrink-0 overflow-hidden hover:ring-2 hover:ring-blue-400 transition-all cursor-pointer">
+            <Link href="/doctor/profile" className="w-9 h-9 rounded-[0.8rem] bg-white/10 flex items-center justify-center text-white font-bold shrink-0 overflow-hidden hover:ring-2 hover:ring-blue-400 transition-all cursor-pointer">
               {user?.avatar ? (
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               ) : (
@@ -95,18 +96,18 @@ export default function DoctorLayout({ children }) {
               )}
             </Link>
             <div className="flex-1 min-w-0">
-              <Link href="/doctor/profile" className="text-sm font-medium text-gray-900 dark:text-white truncate hover:text-blue-600 transition-colors block cursor-pointer">
+              <Link href="/doctor/profile" className="text-sm font-semibold text-white truncate hover:text-blue-300 transition-colors block cursor-pointer">
                 {user?.name}
               </Link>
-              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">Doctor</p>
+              <p className="text-xs text-blue-200/80 dark:text-dark-text-secondary truncate">Doctor</p>
             </div>
             <ThemeToggle />
           </div>
           <button
             onClick={logout}
-            className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+            className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-blue-200 dark:text-dark-text-secondary hover:bg-white/5 hover:text-white dark:hover:bg-red-500/10 dark:hover:text-red-400 rounded-xl transition-colors"
           >
-            <LogoutIcon className="w-5 h-5 text-red-500 dark:text-red-400" />
+            <LogoutIcon className="w-5 h-5" />
             Sign Out
           </button>
         </div>
