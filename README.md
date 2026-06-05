@@ -64,6 +64,30 @@ CareSync is a comprehensive, full-stack healthcare platform built on the **MERN*
 
 CareSync follows a decoupled Client-Server architecture:
 
+```mermaid
+graph TD
+    Client[Next.js Client] <-->|Axios / REST API| Server[Express.js Server]
+    
+    subgraph Frontend [Client Layer]
+        Client --> Zustand[Zustand State]
+        Client --> Components[Tailwind UI]
+        Client --> Middleware[Next.js Middleware Auth]
+    end
+    
+    subgraph Backend [API Layer]
+        Server --> Routes[Express Routes]
+        Routes --> Controllers[Business Logic]
+        Controllers --> Models[Mongoose Models]
+    end
+    
+    Models <--> Database[(MongoDB Atlas)]
+    
+    subgraph External Services
+        Controllers -->|Upload PDFs/Images| Cloudinary[Cloudinary]
+        Controllers -->|Send Emails| Resend[Resend SMTP]
+    end
+```
+
 1. **Client Layer (Next.js):** Handles UI rendering, client-side routing, and state management (Zustand). Uses Axios interceptors to attach JWT tokens to every request. Next.js Middleware protects route groups (`/admin`, `/doctor`, `/dashboard`) based on the JWT payload.
 2. **API Layer (Express.js):** RESTful API that processes business logic, validates payloads (express-validator), and handles authorization (`protect` and `authorize` middleware).
 3. **Database Layer (MongoDB):** Relational-style document modeling using Mongoose `populate()`. (e.g., An `Appointment` references a `Patient`, a `Doctor`, and optionally a `Prescription`).
@@ -74,6 +98,35 @@ CareSync follows a decoupled Client-Server architecture:
 ---
 
 ## 🔄 Core User Flows
+
+```mermaid
+flowchart TD
+    Start([User Visits Site]) --> IsAuth{Authenticated?}
+    IsAuth -- No --> Auth[Login / Register]
+    Auth --> RoleCheck
+    IsAuth -- Yes --> RoleCheck{User Role}
+    
+    %% Patient Flow
+    RoleCheck -- Patient --> PDash[Patient Dashboard]
+    PDash --> FindDoc[Find Doctor]
+    FindDoc --> BookAppt[Book Appointment]
+    BookAppt --> WaitConf[Wait for Confirmation]
+    
+    %% Doctor Flow
+    RoleCheck -- Doctor --> DDash[Doctor Dashboard]
+    DDash --> Manage[Approve/Reject Requests]
+    Manage --> Consult[Conduct Consultation]
+    Consult --> Prescribe[Issue Digital Prescription]
+    
+    %% Admin Flow
+    RoleCheck -- Admin --> ADash[Admin Dashboard]
+    ADash --> Verify[Verify Doctor Profiles]
+    Verify -.-> DDash
+    
+    %% Interactions
+    Manage -.->|Confirm/Reject Email| WaitConf
+    Prescribe -.->|PDF Email| PDash
+```
 
 ### 1. The Patient Journey
 *   **Onboarding:** Registers as a 'patient' and lands on the Patient Dashboard.
