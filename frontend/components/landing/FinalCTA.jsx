@@ -9,7 +9,7 @@ export default function FinalCTA() {
       </h2>
       
       <p className="text-sm text-gray-500 max-w-full sm:max-w-sm mx-auto mb-8 leading-relaxed">
-        Join thousands of patients who've switched from phone calls and paper slips to something that actually works.
+        Join thousands of patients who&apos;ve switched from phone calls and paper slips to something that actually works.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">

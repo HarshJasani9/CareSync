@@ -166,7 +166,7 @@ export default function PublicDoctorsPage() {
               <Search className="text-gray-400" size={24} />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No specialists found</h3>
-            <p className="text-gray-500">We couldn't find any doctors matching your current filters.</p>
+            <p className="text-gray-500">We couldn&apos;t find any doctors matching your current filters.</p>
             <button 
               onClick={() => { setSearchQuery(''); setActiveSpec('All'); }}
               className="mt-6 text-primary-600 font-medium hover:underline"
