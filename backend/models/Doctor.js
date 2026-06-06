@@ -63,7 +63,6 @@ const DoctorSchema = new mongoose.Schema(
 );
 
 // Indexes for faster lookups
-DoctorSchema.index({ user: 1 });
 DoctorSchema.index({ specialization: 1 });
 DoctorSchema.index({ status: 1 });
 
