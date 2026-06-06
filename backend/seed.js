@@ -11,7 +11,6 @@
 
 require('dotenv').config();
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 const User = require('./models/User');
 const Doctor = require('./models/Doctor');
 
@@ -257,8 +256,6 @@ const seedDatabase = async () => {
     await mongoose.connect(MONGO_URI);
     console.log('✅ MongoDB connected for seeding\n');
 
-    const hashedPassword = await bcrypt.hash(SEED_PASSWORD, 10);
-
     // ── Seed Patients ──────────────────────────────────────────
     console.log('🏥 Seeding patients...');
     for (const p of patients) {
@@ -271,7 +268,7 @@ const seedDatabase = async () => {
       await User.create({
         ...p,
         role: 'patient',
-        password: hashedPassword,
+        password: SEED_PASSWORD,
         isVerified: true,
       });
       console.log(`   ✅ Created patient: ${p.name}`);
@@ -290,7 +287,7 @@ const seedDatabase = async () => {
       const user = await User.create({
         ...d.user,
         role: 'doctor',
-        password: hashedPassword,
+        password: SEED_PASSWORD,
         isVerified: true,
       });
 

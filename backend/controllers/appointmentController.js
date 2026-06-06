@@ -10,8 +10,13 @@ const bookAppointment = async (req, res, next) => {
   try {
     const { doctorId, date, timeSlot, reason } = req.body;
 
+    console.log('[DEBUG bookAppointment] doctorId received:', doctorId);
+    console.log('[DEBUG bookAppointment] user:', req.user._id, req.user.role);
+
     // Check doctor exists and is verified
     const doctor = await Doctor.findById(doctorId);
+    console.log('[DEBUG bookAppointment] doctor found:', doctor ? { _id: doctor._id, status: doctor.status } : null);
+    
     if (!doctor || doctor.status !== 'verified') {
       return res.status(404).json({ success: false, message: 'Doctor not found or not verified' });
     }
