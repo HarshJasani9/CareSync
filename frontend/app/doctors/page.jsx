@@ -3,54 +3,36 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import api from '@/lib/axios';
+import { Search, MapPin, Star, Clock, Filter, ChevronRight } from 'lucide-react';
 
 const SPECIALIZATIONS = [
   'All',
   'Cardiology',
   'Dermatology',
-  'Endocrinology',
-  'Gastroenterology',
-  'General Practice',
   'Neurology',
-  'Obstetrics & Gynecology',
-  'Oncology',
-  'Ophthalmology',
   'Orthopedics',
   'Pediatrics',
-  'Psychiatry',
-  'Pulmonology',
-  'Radiology',
-  'Urology',
+  'General Medicine',
 ];
 
-export default function DoctorsSearchPage() {
+export default function PublicDoctorsPage() {
   const [doctors, setDoctors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
   // Filters
-  const [searchName, setSearchName] = useState('');
-  const [specialization, setSpecialization] = useState('All');
-  const [maxFee, setMaxFee] = useState(2000);
-  const [minRating, setMinRating] = useState(0);
-
-  // Pagination
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const limit = 9;
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeSpec, setActiveSpec] = useState('All');
 
   useEffect(() => {
     const fetchDoctors = async () => {
       setIsLoading(true);
       try {
-        const params = { page, limit };
-        if (searchName) params.name = searchName;
-        if (specialization !== 'All') params.specialization = specialization;
-        if (maxFee < 2000) params.maxFee = maxFee;
-        if (minRating > 0) params.minRating = minRating;
+        const params = { limit: 20 }; // Fetch top 20 for public view for now
+        if (searchQuery) params.name = searchQuery;
+        if (activeSpec !== 'All') params.specialization = activeSpec;
 
         const res = await api.get('/doctors', { params });
         setDoctors(res.data.data);
-        setTotalPages(Math.ceil(res.data.total / limit));
       } catch (error) {
         console.error('Error fetching doctors:', error);
       } finally {
@@ -58,155 +40,141 @@ export default function DoctorsSearchPage() {
       }
     };
 
-    // Debounce search slightly
-    const timeoutId = setTimeout(fetchDoctors, 300);
+    const timeoutId = setTimeout(fetchDoctors, 400);
     return () => clearTimeout(timeoutId);
-  }, [searchName, specialization, maxFee, minRating, page]);
+  }, [searchQuery, activeSpec]);
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-dark-text-primary mb-2">Find a Doctor</h1>
-        <p className="text-gray-500 dark:text-dark-text-secondary">Search and book appointments with verified specialists</p>
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-20">
+      {/* Hero Header */}
+      <div className="pt-16 pb-12 px-6 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 text-center">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-5 tracking-tight">
+            Find the right <span className="text-primary-600">doctor</span> for you.
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+            Book appointments with verified specialists, read genuine patient reviews, and manage your health seamlessly.
+          </p>
+
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto flex items-center bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-primary-500 transition-all p-1.5">
+            <div className="pl-4 pr-2">
+              <Search className="text-gray-400" size={20} />
+            </div>
+            <input 
+              type="text" 
+              placeholder="Search by doctor's name..."
+              className="w-full py-3 bg-transparent border-none outline-none text-gray-900 dark:text-white placeholder-gray-400 font-medium"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-xl font-medium transition-colors whitespace-nowrap">
+              Search
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar Filters */}
-        <div className="w-full lg:w-80 shrink-0 space-y-6">
-          {/* Search by name */}
-          <div className="bg-white dark:bg-dark-card p-8 rounded-[2rem] border-0 shadow-sm">
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">Search by Name</label>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Doctor's name..."
-                value={searchName}
-                onChange={(e) => { setSearchName(e.target.value); setPage(1); }}
-                className="w-full pl-12 pr-4 py-3 rounded-[1rem] border-0 bg-gray-50 dark:bg-dark-sidebar text-gray-900 dark:text-dark-text-primary text-sm focus:ring-2 focus:ring-primary-500 outline-none transition-all"
-              />
-              <svg className="w-5 h-5 text-gray-400 dark:text-dark-text-muted absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="bg-white dark:bg-dark-card p-8 rounded-[2rem] border-0 shadow-sm space-y-8">
-            <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">Specialization</label>
-              <select
-                value={specialization}
-                onChange={(e) => { setSpecialization(e.target.value); setPage(1); }}
-                className="w-full px-4 py-3 rounded-[1rem] border-0 bg-gray-50 dark:bg-dark-sidebar text-gray-900 dark:text-dark-text-primary text-sm focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        {/* Categories / Filters Pills */}
+        <div className="flex items-center overflow-x-auto pb-4 mb-6 no-scrollbar border-b border-gray-100 dark:border-gray-800">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-gray-900 dark:text-white mr-2 whitespace-nowrap">Specialties:</span>
+            {SPECIALIZATIONS.map(spec => (
+              <button
+                key={spec}
+                onClick={() => setActiveSpec(spec)}
+                className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeSpec === spec 
+                    ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900' 
+                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-800 dark:hover:bg-gray-800'
+                }`}
               >
-                {SPECIALIZATIONS.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </div>
-
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <label className="text-sm font-bold text-gray-700 dark:text-gray-300">Max Fee</label>
-                <span className="text-sm font-black text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30 px-3 py-1 rounded-full">₹{maxFee}{maxFee === 2000 ? '+' : ''}</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="2000"
-                step="100"
-                value={maxFee}
-                onChange={(e) => { setMaxFee(Number(e.target.value)); setPage(1); }}
-                className="w-full accent-primary-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">Minimum Rating</label>
-              <div className="flex gap-2">
-                {[4, 3, 0].map(rating => (
-                  <button
-                    key={rating}
-                    onClick={() => { setMinRating(rating); setPage(1); }}
-                    className={`flex-1 py-2.5 text-sm font-bold rounded-[1rem] transition-all flex items-center justify-center gap-1.5 ${
-                      minRating === rating ? 'bg-primary-500 text-white shadow-md' : 'bg-gray-50 dark:bg-dark-sidebar text-gray-600 dark:text-dark-text-secondary hover:bg-gray-100 dark:hover:bg-gray-700'
-                    }`}
-                  >
-                    {rating > 0 ? <>{rating}+ <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg></> : 'Any'}
-                  </button>
-                ))}
-              </div>
-            </div>
+                {spec}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Doctor Grid */}
-        <div className="flex-1">
-          {isLoading ? (
-            <div className="flex justify-center p-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div></div>
-          ) : doctors.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {doctors.map(doctor => (
-                  <div key={doctor._id} className="bg-white dark:bg-dark-card rounded-[2rem] border-0 shadow-sm p-8 flex flex-col hover:shadow-md transition-all group">
-                    <div className="flex items-start gap-5 mb-6">
-                      <div className="w-16 h-16 rounded-[1.2rem] bg-primary-100 dark:bg-primary-900/50 overflow-hidden shrink-0 flex items-center justify-center border border-primary-200 dark:border-primary-800/50">
-                        {doctor.user?.avatar ? (
-                          <img src={doctor.user.avatar} alt={doctor.user.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-primary-700 dark:text-primary-400 font-bold text-2xl">
-                            {doctor.user?.name?.charAt(0)}
-                          </span>
-                        )}
-                      </div>
+        {/* Results */}
+        {isLoading ? (
+          <div className="flex justify-center py-20">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-600"></div>
+          </div>
+        ) : doctors.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {doctors.map(doctor => (
+              <div key={doctor._id} className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full group">
+                {/* Card Header (Avatar + Basic Info) */}
+                <div className="p-6 flex-1">
+                  <div className="flex items-start gap-4">
+                    <div className="w-16 h-16 rounded-full bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center overflow-hidden flex-shrink-0 border border-primary-100 dark:border-primary-900/50">
+                      {doctor.user?.avatar ? (
+                        <img src={doctor.user.avatar} alt={doctor.user.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-xl font-bold text-primary-600 dark:text-primary-400">
+                          {doctor.user?.name?.charAt(0)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex-1">
                       <div>
-                        <h3 className="font-bold text-gray-900 dark:text-dark-text-primary text-lg line-clamp-1 group-hover:text-primary-500 transition-colors">Dr. {doctor.user?.name?.replace(/^Dr\.?\s*/i, '')}</h3>
-                        <p className="text-sm text-primary-600 dark:text-primary-400 font-bold mt-0.5">{doctor.specialization}</p>
-                        <div className="flex items-center gap-1.5 mt-2 text-sm text-gray-600 dark:text-dark-text-secondary bg-gray-100 dark:bg-dark-sidebar/50 px-2 py-0.5 rounded-lg w-fit">
-                          <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                          <span className="font-bold text-gray-900 dark:text-dark-text-primary">{doctor.rating > 0 ? doctor.rating.toFixed(1) : 'New'}</span>
-                          <span className="text-gray-500 dark:text-dark-text-muted font-medium">({doctor.totalReviews})</span>
+                        <h3 className="font-semibold text-lg text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                          Dr. {doctor.user?.name?.replace(/^Dr\.?\s*/i, '')}
+                        </h3>
+                        <p className="text-sm text-primary-600 dark:text-primary-400 font-medium mb-3">
+                          {doctor.specialization}
+                        </p>
+                      </div>
+                      
+                      <div className="flex items-center gap-4 text-xs font-medium text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center gap-1.5">
+                          <Star size={14} className={doctor.rating > 0 ? "fill-amber-500 text-amber-500" : "text-gray-300"} />
+                          <span className={doctor.rating > 0 ? "text-gray-900 dark:text-white font-semibold" : ""}>
+                            {doctor.rating > 0 ? doctor.rating.toFixed(1) : 'New'}
+                          </span>
+                          {doctor.rating > 0 && <span className="text-gray-400">({doctor.totalReviews})</span>}
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Clock size={14} className="text-gray-400" />
+                          <span>{doctor.experience} Yrs</span>
                         </div>
                       </div>
                     </div>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-8 text-sm">
-                      <div className="bg-gray-50 dark:bg-dark-sidebar/50 p-3 rounded-[1rem]">
-                        <p className="text-gray-500 dark:text-dark-text-secondary font-medium mb-1">Experience</p>
-                        <p className="font-bold text-gray-900 dark:text-dark-text-primary">{doctor.experience} Years</p>
-                      </div>
-                      <div className="bg-gray-50 dark:bg-dark-sidebar/50 p-3 rounded-[1rem]">
-                        <p className="text-gray-500 dark:text-dark-text-secondary font-medium mb-1">Consultation</p>
-                        <p className="font-bold text-gray-900 dark:text-dark-text-primary">₹{doctor.consultationFee}</p>
-                      </div>
-                    </div>
-
-                    <Link href={`/doctors/${doctor._id}`} className="mt-auto block w-full py-3 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 font-bold rounded-[1.5rem] text-center hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors">
-                      Book Appointment
-                    </Link>
                   </div>
-                ))}
-              </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex justify-center mt-10 gap-2">
-                  <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-3 py-1.5 rounded-lg border text-sm font-medium disabled:opacity-50">Prev</button>
-                  {[...Array(totalPages)].map((_, i) => (
-                    <button key={i} onClick={() => setPage(i + 1)} className={`w-8 h-8 rounded-lg text-sm font-medium ${page === i + 1 ? 'bg-primary-500 text-white' : 'border hover:bg-gray-50'}`}>
-                      {i + 1}
-                    </button>
-                  ))}
-                  <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-3 py-1.5 rounded-lg border text-sm font-medium disabled:opacity-50">Next</button>
                 </div>
-              )}
-            </>
-          ) : (
-             <div className="text-center py-20 bg-white dark:bg-dark-card rounded-[2rem] border-0 shadow-sm flex flex-col items-center">
-               <div className="w-20 h-20 bg-gray-50 dark:bg-dark-sidebar rounded-full flex items-center justify-center mb-4">
-                  <svg className="w-10 h-10 text-gray-400 dark:text-dark-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-               </div>
-               <h3 className="text-xl font-bold text-gray-900 dark:text-dark-text-primary mb-2">No doctors found</h3>
-               <p className="text-gray-500 dark:text-dark-text-secondary font-medium">Try adjusting your filters to find more results.</p>
-             </div>
-          )}
-        </div>
+
+                {/* Card Footer (Details) */}
+                <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 flex items-center justify-between mt-auto">
+                  <div>
+                    <p className="text-[11px] text-gray-500 font-medium uppercase tracking-wider mb-0.5">Consultation</p>
+                    <p className="text-base font-semibold text-gray-900 dark:text-white">₹{doctor.consultationFee}</p>
+                  </div>
+                  <Link 
+                    href={`/doctors/${doctor._id}`} 
+                    className="inline-flex items-center justify-center bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 hover:border-primary-600 hover:text-primary-600 dark:hover:border-primary-500 dark:hover:text-primary-400 text-gray-900 dark:text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-all shadow-sm"
+                  >
+                    View Profile
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white dark:bg-gray-900 rounded-3xl p-16 text-center border border-gray-200 dark:border-gray-800 shadow-sm mt-4">
+            <div className="w-16 h-16 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="text-gray-400" size={24} />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No specialists found</h3>
+            <p className="text-gray-500">We couldn't find any doctors matching your current filters.</p>
+            <button 
+              onClick={() => { setSearchQuery(''); setActiveSpec('All'); }}
+              className="mt-6 text-primary-600 font-medium hover:underline"
+            >
+              Clear all filters
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

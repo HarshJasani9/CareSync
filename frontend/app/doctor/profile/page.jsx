@@ -11,6 +11,7 @@ export default function DoctorProfilePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingSlots, setIsEditingSlots] = useState(false);
 
   // Form State
   const [bio, setBio] = useState('');
@@ -68,11 +69,18 @@ export default function DoctorProfilePage() {
     try {
       await api.put('/doctors/slots', { slots });
       toast.success('Availability updated successfully');
+      setProfile(prev => ({ ...prev, availableSlots: slots }));
+      setIsEditingSlots(false);
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to update availability');
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleCancelSlots = () => {
+    setSlots(profile?.availableSlots || []);
+    setIsEditingSlots(false);
   };
 
   // Slot management
@@ -212,13 +220,30 @@ export default function DoctorProfilePage() {
         <div className="bg-white dark:bg-dark-card rounded-[2rem] border-0 shadow-sm p-8 flex flex-col h-full">
           <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-100 dark:border-dark-border">
             <h2 className="text-lg font-bold text-gray-900 dark:text-dark-text-primary">Weekly Availability</h2>
-            <button
-              onClick={handleSaveSlots}
-              disabled={isSaving}
-              className="px-4 py-1.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold rounded-xl transition-colors disabled:opacity-50"
-            >
-              Save Slots
-            </button>
+            {!isEditingSlots ? (
+              <button
+                onClick={() => setIsEditingSlots(true)}
+                className="px-4 py-1.5 text-sm font-bold text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/30 rounded-xl transition-colors"
+              >
+                Edit Slots
+              </button>
+            ) : (
+              <div className="flex gap-2">
+                <button
+                  onClick={handleCancelSlots}
+                  className="px-4 py-1.5 bg-gray-100 dark:bg-dark-sidebar text-gray-700 dark:text-dark-text-secondary text-sm font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-dark-border transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveSlots}
+                  disabled={isSaving}
+                  className="px-4 py-1.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold rounded-xl transition-colors disabled:opacity-50"
+                >
+                  {isSaving ? 'Saving...' : 'Save'}
+                </button>
+              </div>
+            )}
           </div>
           
           <div className="space-y-4 flex-1 overflow-y-auto pr-1">
@@ -229,37 +254,47 @@ export default function DoctorProfilePage() {
                 <div key={day} className="bg-gray-50 dark:bg-dark-bg/50 p-4 rounded-[1.2rem] border border-gray-100 dark:border-dark-border">
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-bold text-gray-900 dark:text-dark-text-primary w-12 text-sm">{day}</span>
-                    <button
-                      onClick={() => addSlot(day)}
-                      className="text-xs font-bold text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 bg-primary-50 dark:bg-primary-900/20 px-2.5 py-1 rounded-lg transition-colors"
-                    >
-                      + Add Slot
-                    </button>
+                    {isEditingSlots && (
+                      <button
+                        onClick={() => addSlot(day)}
+                        className="text-xs font-bold text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 bg-primary-50 dark:bg-primary-900/20 px-2.5 py-1 rounded-lg transition-colors"
+                      >
+                        + Add Slot
+                      </button>
+                    )}
                   </div>
                   
                   {daySlots.length > 0 ? (
                     <div className="space-y-2">
                       {daySlots.map(slot => (
                         <div key={slot.originalIndex} className="flex items-center gap-2">
-                          <input
-                            type="time"
-                            value={slot.startTime}
-                            onChange={(e) => updateSlot(slot.originalIndex, 'startTime', e.target.value)}
-                            className="flex-1 px-3 py-2 text-sm rounded-lg border-0 bg-white dark:bg-dark-sidebar text-gray-900 dark:text-dark-text-primary outline-none focus:ring-2 focus:ring-primary-500 transition-all"
-                          />
-                          <span className="text-gray-400 dark:text-dark-text-muted text-xs font-bold">to</span>
-                          <input
-                            type="time"
-                            value={slot.endTime}
-                            onChange={(e) => updateSlot(slot.originalIndex, 'endTime', e.target.value)}
-                            className="flex-1 px-3 py-2 text-sm rounded-lg border-0 bg-white dark:bg-dark-sidebar text-gray-900 dark:text-dark-text-primary outline-none focus:ring-2 focus:ring-primary-500 transition-all"
-                          />
-                          <button
-                            onClick={() => removeSlot(slot.originalIndex)}
-                            className="p-1.5 text-red-400 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                          >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                          </button>
+                          {isEditingSlots ? (
+                            <>
+                              <input
+                                type="time"
+                                value={slot.startTime}
+                                onChange={(e) => updateSlot(slot.originalIndex, 'startTime', e.target.value)}
+                                className="flex-1 px-3 py-2 text-sm rounded-lg border-0 bg-white dark:bg-dark-sidebar text-gray-900 dark:text-dark-text-primary outline-none focus:ring-2 focus:ring-primary-500 transition-all"
+                              />
+                              <span className="text-gray-400 dark:text-dark-text-muted text-xs font-bold">to</span>
+                              <input
+                                type="time"
+                                value={slot.endTime}
+                                onChange={(e) => updateSlot(slot.originalIndex, 'endTime', e.target.value)}
+                                className="flex-1 px-3 py-2 text-sm rounded-lg border-0 bg-white dark:bg-dark-sidebar text-gray-900 dark:text-dark-text-primary outline-none focus:ring-2 focus:ring-primary-500 transition-all"
+                              />
+                              <button
+                                onClick={() => removeSlot(slot.originalIndex)}
+                                className="p-1.5 text-red-400 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                              </button>
+                            </>
+                          ) : (
+                            <div className="flex-1 text-sm text-gray-700 dark:text-gray-300 font-medium px-2 py-1">
+                              {slot.startTime} - {slot.endTime}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
