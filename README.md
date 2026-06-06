@@ -156,7 +156,7 @@ flowchart TD
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/CareSync.git
+git clone https://github.com/HarshJasani9/CareSync.git
 cd CareSync
 ```
 
@@ -218,6 +218,48 @@ Start the Next.js development server:
 npm run dev
 ```
 
+### 4. Seed Demo Data (Optional)
+Populate the database with **5 sample patients** and **8 verified doctors** so the app looks production-ready out of the box.
+
+```bash
+cd backend
+node seed.js
+```
+
+To remove all seeded data later:
+```bash
+node seed.js --clear
+```
+
+<details>
+<summary><strong>📋 Demo Account Credentials</strong> (click to expand)</summary>
+<br>
+
+**Password for all accounts:** `Test@123`
+
+#### Patients
+| Name | Email |
+|------|-------|
+| Aarav Mehta | `aarav.mehta@demo.com` |
+| Priya Sharma | `priya.sharma@demo.com` |
+| Rohan Gupta | `rohan.gupta@demo.com` |
+| Ananya Reddy | `ananya.reddy@demo.com` |
+| Vikram Singh | `vikram.singh@demo.com` |
+
+#### Doctors
+| Name | Specialization | Fee | Rating |
+|------|---------------|-----|--------|
+| Dr. Neha Kapoor | Cardiology | ₹1500 | 4.8 ⭐ |
+| Dr. Rajesh Iyer | Orthopedics | ₹1200 | 4.6 ⭐ |
+| Dr. Sanya Patel | Dermatology | ₹800 | 4.9 ⭐ |
+| Dr. Arjun Nair | Pediatrics | ₹700 | 4.7 ⭐ |
+| Dr. Meera Joshi | Psychiatry | ₹1000 | 4.5 ⭐ |
+| Dr. Karan Malhotra | General Practice | ₹500 | 4.4 ⭐ |
+| Dr. Ishita Banerjee | Neurology | ₹1800 | 4.3 ⭐ |
+| Dr. Aditya Verma | Gastroenterology | ₹1400 | 4.6 ⭐ |
+
+</details>
+
 ---
 
 ## 📁 Folder Structure
@@ -230,7 +272,8 @@ CareSync/
 │   ├── middleware/     # Auth checks, error handling, file upload, validation
 │   ├── models/         # Mongoose schemas
 │   ├── routes/         # Express route definitions
-│   └── utils/          # PDF generation & Email transport templates
+│   ├── utils/          # PDF generation & Email transport templates
+│   └── seed.js         # Database seeder for demo data
 │
 └── frontend/
     ├── app/            # Next.js 14 App Router layout
