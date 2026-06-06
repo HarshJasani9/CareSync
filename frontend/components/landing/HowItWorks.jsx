@@ -18,8 +18,8 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-16 border-t border-gray-100 dark:border-gray-800">
-      <div className="mb-10">
+    <section id="how-it-works" className="py-10 md:py-16 border-t border-gray-100 dark:border-gray-800">
+      <div className="mb-6 md:mb-10">
         <div className="inline-block text-xs uppercase tracking-wide bg-primary-50 text-primary-900 border border-primary-100 rounded-full px-3 py-1">
           How it works
         </div>
@@ -48,7 +48,7 @@ export default function HowItWorks() {
                 <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1.5">
                   {step.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed max-w-lg">
+                <p className="text-sm text-gray-500 leading-relaxed max-w-full md:max-w-lg">
                   {step.body}
                 </p>
               </div>

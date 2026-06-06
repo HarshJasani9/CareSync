@@ -3,8 +3,8 @@ import { ArrowRight } from 'lucide-react';
 
 export default function DoctorCTA() {
   return (
-    <section className="py-14 border-t border-gray-100 dark:border-gray-800">
-      <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+    <section className="py-10 md:py-14 border-t border-gray-100 dark:border-gray-800">
+      <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-5 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         
         {/* LEFT SIDE */}
         <div className="max-w-md">
@@ -12,7 +12,7 @@ export default function DoctorCTA() {
             For doctors
           </div>
           
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-3">
             Are you a specialist? Join CareSync.
           </h2>
           
@@ -22,10 +22,10 @@ export default function DoctorCTA() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex flex-col items-start md:items-end gap-2 flex-shrink-0">
+        <div className="flex flex-col items-start md:items-end gap-2 flex-shrink-0 w-full md:w-auto">
           <Link 
             href="/doctors" 
-            className="inline-flex items-center gap-2 bg-primary-600 text-white text-sm font-medium rounded-lg px-5 py-2.5 hover:bg-primary-700 transition-colors"
+            className="inline-flex items-center justify-center gap-2 bg-primary-600 text-white text-sm font-medium rounded-lg px-5 py-2.5 hover:bg-primary-700 transition-colors w-full md:w-auto"
           >
             Apply as a doctor
             <ArrowRight size={15} />

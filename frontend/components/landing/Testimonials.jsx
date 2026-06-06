@@ -32,8 +32,8 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-16 border-t border-gray-100 dark:border-gray-800">
-      <div className="mb-10">
+    <section className="py-10 md:py-16 border-t border-gray-100 dark:border-gray-800">
+      <div className="mb-6 md:mb-10">
         <div className="inline-block text-xs uppercase tracking-wide bg-primary-50 text-primary-900 border border-primary-100 rounded-full px-3 py-1">
           Patient stories
         </div>
@@ -42,9 +42,9 @@ export default function Testimonials() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {testimonials.map((testimonial, index) => (
-          <div key={index} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-5 flex flex-col">
+          <div key={index} className={`bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-5 flex-col ${index === 2 ? 'hidden sm:flex' : 'flex'}`}>
             <div className="flex gap-0.5 mb-3">
               {[...Array(5)].map((_, i) => (
                 <Star

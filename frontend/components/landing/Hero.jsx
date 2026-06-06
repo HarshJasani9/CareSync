@@ -5,7 +5,7 @@ import { ArrowRight, Star, FileText, Download } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="pt-16 pb-12">
+    <section className="pt-10 pb-8 md:pt-16 md:pb-12">
       <div className="flex flex-col md:flex-row items-start justify-between gap-10">
         
         {/* LEFT COLUMN */}
@@ -25,15 +25,15 @@ export default function Hero() {
           <div className="mt-4 mb-5 w-8 h-0.5 bg-primary-500 rounded-full" />
 
           {/* Subtext */}
-          <p className="text-gray-500 text-base leading-relaxed max-w-sm">
+          <p className="text-gray-500 text-base leading-relaxed max-w-full md:max-w-sm">
             Book appointments, receive digital prescriptions, and manage your health records — all in one place. No waiting rooms, no lost paperwork.
           </p>
 
           {/* CTA row */}
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-col sm:flex-row gap-3">
             <Link 
               href="/doctors" 
-              className="inline-flex items-center gap-2 bg-primary-600 text-white text-sm font-medium rounded-lg px-6 py-3 hover:bg-primary-700 transition-colors"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-primary-600 text-white text-sm font-medium rounded-lg px-6 py-3 hover:bg-primary-700 transition-colors"
             >
               Find a doctor
               <ArrowRight size={15} />
@@ -41,14 +41,14 @@ export default function Hero() {
             
             <button 
               onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-              className="border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300 rounded-lg px-6 py-3 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+              className="inline-flex items-center justify-center w-full sm:w-auto border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300 rounded-lg px-6 py-3 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
             >
               See how it works
             </button>
           </div>
 
           {/* Social proof row */}
-          <div className="mt-8 flex items-center gap-4">
+          <div className="mt-8 flex items-center gap-3">
             <div className="flex">
               <div className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-950 flex items-center justify-center text-xs font-medium bg-primary-50 text-primary-900">
                 RK
@@ -76,7 +76,7 @@ export default function Hero() {
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="hidden md:flex flex-col gap-3 max-w-xs">
+        <div className="flex flex-col gap-3 w-full md:max-w-xs">
           
           {/* CARD 1 — Appointment card */}
           <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-4">
@@ -119,7 +119,7 @@ export default function Hero() {
           </div>
 
           {/* CARD 2 — Prescription card */}
-          <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-3 flex items-center gap-3">
+          <div className="hidden md:flex bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-3 items-center gap-3">
             {/* Icon box */}
             <div className="w-9 h-9 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
               <FileText size={18} className="text-primary-600" />

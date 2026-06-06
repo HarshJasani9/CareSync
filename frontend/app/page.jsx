@@ -17,7 +17,7 @@
     return (
       <main className="min-h-screen bg-white dark:bg-gray-950">
         <Navbar />
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-8 lg:px-16">
           <Hero />
           <TrustBar />
           <HowItWorks />

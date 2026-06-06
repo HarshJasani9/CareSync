@@ -49,8 +49,8 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="py-16 border-t border-gray-100 dark:border-gray-800">
-      <div className="mb-10">
+    <section className="py-10 md:py-16 border-t border-gray-100 dark:border-gray-800">
+      <div className="mb-6 md:mb-10">
         <div className="inline-block text-xs uppercase tracking-wide bg-primary-50 text-primary-900 border border-primary-100 rounded-full px-3 py-1">
           Features
         </div>
@@ -59,11 +59,11 @@ export default function Features() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {features.map((feature, index) => {
           const Icon = iconMap[feature.icon];
           return (
-            <div key={index} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-5">
+            <div key={index} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-4 md:p-5">
               <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-4 ${feature.iconBg}`}>
                 <Icon size={18} className={feature.iconColor} />
               </div>
