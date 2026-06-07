@@ -7,11 +7,38 @@ const rateLimit = require('express-rate-limit');
 const path = require('path');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
+const http = require('http');
+const { Server } = require('socket.io');
+const jwt = require('jsonwebtoken');
+const User = require('./models/User');
 
 // Connect to MongoDB
 connectDB();
 
 const app = express();
+const httpServer = http.createServer(app);
+
+const io = new Server(httpServer, {
+  cors: { origin: process.env.CLIENT_URL, methods: ['GET','POST'] },
+  pingTimeout: 60000,
+  pingInterval: 25000
+});
+
+io.use(async (socket, next) => {
+  const token = socket.handshake.auth.token;
+  if (!token) return next(new Error('Not authenticated'));
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    socket.user = await User.findById(decoded.id).select('-password');
+    if (!socket.user) return next(new Error('User not found'));
+    next();
+  } catch { next(new Error('Invalid token')); }
+});
+
+io.on('connection', (socket) => {
+  socket.join(socket.user._id.toString());
+  socket.on('disconnect', () => socket.leave(socket.user._id.toString()));
+});
 
 // Global Rate Limiting: 100 requests per 15 minutes
 const limiter = rateLimit({
@@ -50,6 +77,7 @@ const reviewRoutes = require('./routes/reviews');
 const adminRoutes = require('./routes/admin');
 
 // API Routes
+app.use((req, res, next) => { req.io = io; next(); });
 const apiRouter = express.Router();
 
 apiRouter.use('/auth', authRoutes);
@@ -68,6 +96,6 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

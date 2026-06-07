@@ -14,7 +14,7 @@ const bookAppointment = async (req, res, next) => {
     console.log('[DEBUG bookAppointment] user:', req.user._id, req.user.role);
 
     // Check doctor exists and is verified
-    const doctor = await Doctor.findById(doctorId);
+    const doctor = await Doctor.findById(doctorId).populate('user', '_id name');
     console.log('[DEBUG bookAppointment] doctor found:', doctor ? { _id: doctor._id, status: doctor.status } : null);
     
     if (!doctor || doctor.status !== 'verified') {
@@ -39,6 +39,14 @@ const bookAppointment = async (req, res, next) => {
       date,
       timeSlot,
       reason,
+    });
+
+    req.io.to(doctor.user._id.toString()).emit('appointment:booked', {
+      appointmentId: appointment._id,
+      patientName:   req.user.name,
+      date:          appointment.date,
+      timeSlot:      appointment.timeSlot,
+      reason:        appointment.reason
     });
 
     res.status(201).json({ success: true, data: appointment });
@@ -129,7 +137,7 @@ const updateAppointmentStatus = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Doctor profile not found' });
     }
 
-    const appointment = await Appointment.findById(req.params.id);
+    const appointment = await Appointment.findById(req.params.id).populate('patient', '_id');
     if (!appointment) {
       return res.status(404).json({ success: false, message: 'Appointment not found' });
     }
@@ -167,6 +175,14 @@ const updateAppointmentStatus = async (req, res, next) => {
         console.error('Email send failed:', emailError.message);
       }
     }
+
+    req.io.to(appointment.patient._id.toString()).emit('appointment:updated', {
+      appointmentId: appointment._id,
+      status:        appointment.status,
+      doctorName:    req.user.name,
+      date:          appointment.date,
+      timeSlot:      appointment.timeSlot
+    });
 
     res.status(200).json({ success: true, data: appointment });
   } catch (error) {

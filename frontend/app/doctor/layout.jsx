@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useSocketEvents } from '@/hooks/useSocketEvents';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
@@ -20,6 +21,9 @@ export default function DoctorLayout({ children }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  const role = useAuthStore((s) => s.role);
+  useSocketEvents(role);
 
   return (
     <div className="min-h-screen bg-[#F4F7F6] dark:bg-dark-bg flex flex-col md:flex-row">

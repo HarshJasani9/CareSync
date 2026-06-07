@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { connectSocket, disconnectSocket } from '@/lib/socket';
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -13,6 +14,7 @@ export const useAuthStore = create((set) => ({
       document.cookie = `cl_token=${token}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
     }
     set({ user, token, role: user?.role || null, isLoading: false });
+    connectSocket(token);
   },
 
   // Update just the user data without modifying the token
@@ -22,6 +24,7 @@ export const useAuthStore = create((set) => ({
 
   // Clear all auth state and redirect to login
   logout: () => {
+    disconnectSocket();
     if (typeof window !== 'undefined') {
       localStorage.removeItem('cl_token');
       document.cookie = 'cl_token=; path=/; max-age=0';
@@ -43,6 +46,7 @@ export const useAuthStore = create((set) => ({
             role: payload.role,
             isLoading: false,
           });
+          connectSocket(token);
 
           // Fetch full user profile asynchronously
           const api = require('@/lib/axios').default;

@@ -102,6 +102,13 @@ const createPrescription = async (req, res, next) => {
       console.error('Prescription email failed:', emailError.message);
     }
 
+    req.io.to(patient._id.toString()).emit('prescription:ready', {
+      prescriptionId: prescription._id,
+      doctorName:     req.user.name,
+      diagnosis:      prescription.diagnosis,
+      pdfUrl:         prescription.pdfUrl
+    });
+
     res.status(201).json({ success: true, data: prescription });
   } catch (error) {
     next(error);
