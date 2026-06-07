@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -23,6 +23,7 @@ const ROLE_DASHBOARDS = {
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const setAuth = useAuthStore((s) => s.setAuth);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -42,7 +43,13 @@ export default function LoginPage() {
       const { user, token } = res.data;
       setAuth(user, token);
       toast.success(`Welcome back, ${user.name}!`);
-      router.push(ROLE_DASHBOARDS[user.role] || '/dashboard');
+      
+      const callbackUrl = searchParams.get('callbackUrl');
+      if (callbackUrl && callbackUrl.startsWith('/')) {
+        router.push(callbackUrl);
+      } else {
+        router.push(ROLE_DASHBOARDS[user.role] || '/dashboard');
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed. Please try again.');
     } finally {

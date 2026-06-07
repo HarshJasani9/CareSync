@@ -1,85 +1,78 @@
-import { NextResponse } from 'next/server';
-
-// Routes that require authentication, grouped by allowed role
-const protectedRoutes = {
-  patient: ['/dashboard', '/appointments', '/prescriptions', '/records'],
-  doctor: ['/doctor'],
-  admin: ['/admin'],
-};
-
-// Role → default dashboard redirect
-const dashboardMap = {
-  patient: '/dashboard',
-  doctor: '/doctor/dashboard',
-  admin: '/admin/dashboard',
-};
+import { NextResponse } from 'next/server'
 
 export function middleware(request) {
-  const { pathname } = request.nextUrl;
-  const token = request.cookies.get('cl_token')?.value;
+  const { pathname } = request.nextUrl
 
-  // Determine if the current path is protected
-  const isProtected =
-    pathname.startsWith('/dashboard') ||
-    pathname.startsWith('/appointments') ||
-    pathname.startsWith('/prescriptions') ||
-    pathname.startsWith('/records') ||
-    pathname.startsWith('/doctor') ||
-    pathname.startsWith('/admin');
+  // Read token from cookie named 'cl_token'
+  const token = request.cookies.get('cl_token')?.value
 
-  // Public routes — let them through
-  if (!isProtected) {
-    return NextResponse.next();
-  }
+  // Define protected route prefixes and their required role
+  const protectedRoutes = [
+    { prefix: '/dashboard', role: 'patient' },
+    { prefix: '/patient',   role: 'patient' },
+    { prefix: '/doctor',    role: 'doctor'  },
+    { prefix: '/admin',     role: 'admin'   },
+  ]
 
-  // No token — redirect to login
+  const matched = protectedRoutes.find(r => pathname.startsWith(r.prefix))
+
+  // If route is not protected, allow through
+  if (!matched) return NextResponse.next()
+
+  // No token → redirect to login with callbackUrl
   if (!token) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('callbackUrl', pathname);
-    return NextResponse.redirect(loginUrl);
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('callbackUrl', pathname)
+    return NextResponse.redirect(loginUrl)
   }
 
-  // Decode JWT payload to check role
+  // Decode JWT payload WITHOUT verifying signature
+  // (signature verification happens on the backend — middleware runs on edge
+  //  and does not have access to JWT_SECRET securely)
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const role = payload.role;
+    const payload = JSON.parse(
+      Buffer.from(token.split('.')[1], 'base64').toString()
+    )
 
-    // Role-based access control
-    const isPatientRoute =
-      pathname.startsWith('/dashboard') ||
-      pathname.startsWith('/appointments') ||
-      pathname.startsWith('/prescriptions') ||
-      pathname.startsWith('/records');
-    const isDoctorRoute = pathname.startsWith('/doctor');
-    const isAdminRoute = pathname.startsWith('/admin');
-
-    // Check if user is accessing routes they shouldn't
-    if (isPatientRoute && role !== 'patient') {
-      return NextResponse.redirect(new URL(dashboardMap[role] || '/login', request.url));
-    }
-    if (isDoctorRoute && role !== 'doctor') {
-      return NextResponse.redirect(new URL(dashboardMap[role] || '/login', request.url));
-    }
-    if (isAdminRoute && role !== 'admin') {
-      return NextResponse.redirect(new URL(dashboardMap[role] || '/login', request.url));
+    // Check expiry
+    const now = Math.floor(Date.now() / 1000)
+    if (payload.exp && payload.exp < now) {
+      const loginUrl = new URL('/login', request.url)
+      loginUrl.searchParams.set('callbackUrl', pathname)
+      const response = NextResponse.redirect(loginUrl)
+      response.cookies.delete('cl_token')
+      return response
     }
 
-    return NextResponse.next();
+    // Check role mismatch
+    if (matched.role && payload.role !== matched.role) {
+      // Redirect to their correct dashboard instead of login
+      const roleRedirects = {
+        patient: '/dashboard',
+        doctor:  '/doctor/dashboard',
+        admin:   '/admin/dashboard',
+      }
+      const correctDash = roleRedirects[payload.role] || '/login'
+      const redirectUrl = new URL(correctDash, request.url)
+      redirectUrl.searchParams.set('error', 'unauthorized')
+      return NextResponse.redirect(redirectUrl)
+    }
+
+    return NextResponse.next()
   } catch {
-    // Invalid token — redirect to login
-    const response = NextResponse.redirect(new URL('/login', request.url));
-    response.cookies.delete('cl_token');
-    return response;
+    // Malformed token → clear and redirect to login
+    const loginUrl = new URL('/login', request.url)
+    const response = NextResponse.redirect(loginUrl)
+    response.cookies.delete('cl_token')
+    return response
   }
 }
 
 export const config = {
   matcher: [
     '/dashboard/:path*',
-    '/appointments/:path*',
-    '/prescriptions/:path*',
-    '/records/:path*',
+    '/patient/:path*',
     '/doctor/:path*',
     '/admin/:path*',
   ],
-};
+}

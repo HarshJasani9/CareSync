@@ -9,11 +9,11 @@ export const useAuthStore = create((set) => ({
 
   // Called after login/register — persists token to localStorage + cookie
   setAuth: (user, token) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cl_token', token);
-      document.cookie = `cl_token=${token}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
-    }
-    set({ user, token, role: user?.role || null, isLoading: false });
+    set({ user, token, role: user.role })
+    localStorage.setItem('cl_token', token)
+
+    // ADD: also set as cookie so middleware can read it
+    document.cookie = `cl_token=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`
     connectSocket(token);
   },
 
@@ -24,13 +24,13 @@ export const useAuthStore = create((set) => ({
 
   // Clear all auth state and redirect to login
   logout: () => {
-    disconnectSocket();
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('cl_token');
-      document.cookie = 'cl_token=; path=/; max-age=0';
-      window.location.href = '/login';
-    }
-    set({ user: null, token: null, role: null, isLoading: false });
+    disconnectSocket()
+    set({ user: null, token: null, role: null })
+    localStorage.removeItem('cl_token')
+
+    // ADD: clear cookie
+    document.cookie = 'cl_token=; path=/; max-age=0'
+    window.location.href = '/login'
   },
 
     // Hydrate auth state from localStorage on app mount

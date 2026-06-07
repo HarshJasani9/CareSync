@@ -12,6 +12,8 @@ const navigation = [
   { name: 'Pending Approvals', href: '/admin/doctors/pending', icon: UserCheckIcon },
 ];
 
+import { useAuthGuard } from '@/hooks/useAuthGuard';
+
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
   const logout = useAuthStore((state) => state.logout);
@@ -19,6 +21,7 @@ export default function AdminLayout({ children }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  useAuthGuard();
 
   return (
     <div className="min-h-screen bg-[#F4F7F6] dark:bg-gray-950 flex flex-col md:flex-row">

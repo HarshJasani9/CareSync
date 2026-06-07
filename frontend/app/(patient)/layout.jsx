@@ -16,6 +16,8 @@ const navigation = [
   { name: 'Find Doctors', href: '/doctors', icon: SearchIcon },
 ];
 
+import { useAuthGuard } from '@/hooks/useAuthGuard';
+
 export default function PatientLayout({ children }) {
   const pathname = usePathname();
   const logout = useAuthStore((state) => state.logout);
@@ -26,6 +28,7 @@ export default function PatientLayout({ children }) {
 
   const role = useAuthStore((s) => s.role);
   useSocketEvents(role);
+  useAuthGuard();
 
   return (
     <div className="min-h-screen bg-[#F4F7F6] dark:bg-dark-bg flex flex-col md:flex-row">
