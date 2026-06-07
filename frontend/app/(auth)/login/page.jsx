@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { Eye, EyeOff } from 'lucide-react';
 import api from '@/lib/axios';
 import { useAuthStore } from '@/store/authStore';
 
@@ -28,6 +29,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const setAuth = useAuthStore((s) => s.setAuth);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -90,16 +92,25 @@ function LoginForm() {
           <label htmlFor="login-password" className="block text-sm font-medium text-gray-700 mb-1.5">
             Password
           </label>
-          <input
-            id="login-password"
-            type="password"
-            autoComplete="current-password"
-            placeholder="••••••••"
-            className={`w-full px-4 py-3 rounded-xl border bg-surface-muted text-gray-900 placeholder-gray-400 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${
-              errors.password ? 'border-red-400' : 'border-gray-200'
-            }`}
-            {...register('password')}
-          />
+          <div className="relative">
+            <input
+              id="login-password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              placeholder="••••••••"
+              className={`w-full px-4 py-3 rounded-xl border bg-surface-muted text-gray-900 placeholder-gray-400 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 pr-12 ${
+                errors.password ? 'border-red-400' : 'border-gray-200'
+              }`}
+              {...register('password')}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors"
+            >
+              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            </button>
+          </div>
           {errors.password && (
             <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>
           )}
