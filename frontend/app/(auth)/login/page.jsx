@@ -21,7 +21,9 @@ const ROLE_DASHBOARDS = {
   admin: '/admin/dashboard',
 };
 
-export default function LoginPage() {
+import { Suspense } from 'react';
+
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setAuth = useAuthStore((s) => s.setAuth);
@@ -58,6 +60,84 @@ export default function LoginPage() {
   };
 
   return (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+      <h1 className="text-2xl font-bold text-gray-900 mb-1">Welcome back</h1>
+      <p className="text-gray-500 mb-8">Sign in to your CareSync account</p>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        {/* Email */}
+        <div>
+          <label htmlFor="login-email" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Email address
+          </label>
+          <input
+            id="login-email"
+            type="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            className={`w-full px-4 py-3 rounded-xl border bg-surface-muted text-gray-900 placeholder-gray-400 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${
+              errors.email ? 'border-red-400' : 'border-gray-200'
+            }`}
+            {...register('email')}
+          />
+          {errors.email && (
+            <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
+          )}
+        </div>
+
+        {/* Password */}
+        <div>
+          <label htmlFor="login-password" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Password
+          </label>
+          <input
+            id="login-password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="••••••••"
+            className={`w-full px-4 py-3 rounded-xl border bg-surface-muted text-gray-900 placeholder-gray-400 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${
+              errors.password ? 'border-red-400' : 'border-gray-200'
+            }`}
+            {...register('password')}
+          />
+          {errors.password && (
+            <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>
+          )}
+        </div>
+
+        {/* Submit */}
+        <button
+          id="login-submit"
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl text-sm transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              Signing in...
+            </span>
+          ) : (
+            'Sign In'
+          )}
+        </button>
+      </form>
+
+      <p className="text-center text-sm text-gray-500 mt-6">
+        Don&apos;t have an account?{' '}
+        <Link href="/register" className="text-primary-500 hover:text-primary-600 font-medium">
+          Create one
+        </Link>
+      </p>
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
     <div className="min-h-screen flex items-center justify-center bg-surface-muted px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
@@ -82,80 +162,10 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Welcome back</h1>
-          <p className="text-gray-500 mb-8">Sign in to your CareSync account</p>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            {/* Email */}
-            <div>
-              <label htmlFor="login-email" className="block text-sm font-medium text-gray-700 mb-1.5">
-                Email address
-              </label>
-              <input
-                id="login-email"
-                type="email"
-                autoComplete="email"
-                placeholder="you@example.com"
-                className={`w-full px-4 py-3 rounded-xl border bg-surface-muted text-gray-900 placeholder-gray-400 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${
-                  errors.email ? 'border-red-400' : 'border-gray-200'
-                }`}
-                {...register('email')}
-              />
-              {errors.email && (
-                <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
-              )}
-            </div>
-
-            {/* Password */}
-            <div>
-              <label htmlFor="login-password" className="block text-sm font-medium text-gray-700 mb-1.5">
-                Password
-              </label>
-              <input
-                id="login-password"
-                type="password"
-                autoComplete="current-password"
-                placeholder="••••••••"
-                className={`w-full px-4 py-3 rounded-xl border bg-surface-muted text-gray-900 placeholder-gray-400 text-sm outline-none transition-all focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${
-                  errors.password ? 'border-red-400' : 'border-gray-200'
-                }`}
-                {...register('password')}
-              />
-              {errors.password && (
-                <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>
-              )}
-            </div>
-
-            {/* Submit */}
-            <button
-              id="login-submit"
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl text-sm transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                  Signing in...
-                </span>
-              ) : (
-                'Sign In'
-              )}
-            </button>
-          </form>
-
-          <p className="text-center text-sm text-gray-500 mt-6">
-            Don&apos;t have an account?{' '}
-            <Link href="/register" className="text-primary-500 hover:text-primary-600 font-medium">
-              Create one
-            </Link>
-          </p>
-        </div>
+        {/* Card wrapper */}
+        <Suspense fallback={<div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center text-gray-500">Loading...</div>}>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );
