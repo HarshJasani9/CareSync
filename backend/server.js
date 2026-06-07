@@ -19,7 +19,18 @@ const app = express();
 const httpServer = http.createServer(app);
 
 const io = new Server(httpServer, {
-  cors: { origin: process.env.CLIENT_URL, methods: ['GET','POST'] },
+  cors: { 
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      const allowed = [process.env.CLIENT_URL, 'http://localhost:3000'];
+      if (allowed.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }, 
+    methods: ['GET','POST'] 
+  },
   pingTimeout: 60000,
   pingInterval: 25000
 });
@@ -56,8 +67,22 @@ if (process.env.NODE_ENV === 'production') {
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:3000',
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    
+    // Allow any origin that is in the allowedOrigins array or ends with vercel.app
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(express.json()); // Body parser for JSON
