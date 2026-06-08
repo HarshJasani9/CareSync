@@ -47,12 +47,15 @@ CareSync is a comprehensive, full-stack healthcare platform built on the **MERN*
 *   **Forms & Validation:** React Hook Form + Zod
 *   **Data Visualization:** Recharts
 *   **HTTP Client:** Axios (Configured with interceptors)
+*   **Real-time:** Socket.io-client
 *   **Alerts:** Sonner
+*   **Icons:** Lucide-React
 
 ### **Backend**
 *   **Core:** Node.js, Express.js
 *   **Database:** MongoDB, Mongoose
 *   **Authentication:** JSON Web Tokens (JWT), bcryptjs
+*   **Real-time:** Socket.io
 *   **File Storage:** Cloudinary, Multer (Memory Storage)
 *   **Document Generation:** PDFKit
 *   **Email Service:** Nodemailer configured with Resend SMTP
@@ -67,6 +70,7 @@ CareSync follows a decoupled Client-Server architecture:
 ```mermaid
 graph TD
     Client[Next.js Client] <-->|Axios / REST API| Server[Express.js Server]
+    Client <-->|Socket.io Real-time| Server
     
     subgraph Frontend [Client Layer]
         Client --> Zustand[Zustand State]
@@ -94,6 +98,7 @@ graph TD
 4. **External Services:**
    - **Cloudinary:** Used for uploading Health Records and system-generated PDF prescriptions via memory-buffered streams.
    - **Resend (SMTP):** Dispatches automated, branded HTML emails for appointment confirmations and prescription deliveries.
+5. **Real-Time Layer (Socket.io):** Enables real-time capabilities across the platform, delivering instant notifications for appointment booking confirmations, status updates, and new prescription availability without requiring page reloads.
 
 ---
 
@@ -260,6 +265,14 @@ node seed.js --clear
 
 </details>
 
+### 5. Database Migration (Local to Atlas)
+If you have verified data in your local environment that you want to move to production, a dedicated script `migrateDb.js` is included to securely copy your local MongoDB data straight into your live Atlas Cluster.
+
+```bash
+cd backend
+node migrateDb.js "mongodb+srv://<username>:<password>@cluster.mongodb.net/caresync"
+```
+
 ---
 
 ## 📁 Folder Structure
@@ -288,9 +301,11 @@ CareSync/
 ---
 
 ## 🔒 Security Measures
+*   **Edge Route Protection:** Next.js Edge Middleware natively intercepts protected routes (`/dashboard`, `/admin`, `/doctor`), safely checks token validity, and seamlessly handles role-based access redirection.
+*   **Client-Side Session Validation:** A dedicated `useAuthGuard` hook continually checks JWT expiry on page mount, tab visibility change, and active 5-minute intervals to instantly revoke access for expired or invalid tokens.
+*   **Axios Interceptors:** Robust interceptors gracefully handle automatic JWT injection, API rejection (401/403), and seamlessly loop users back to the login page when unauthorized.
 *   **Role-Based Access Control (RBAC):** Backend endpoints and frontend routes are strictly guarded by `patient`, `doctor`, and `admin` roles.
-*   **JWT & Cookies:** Tokens are stored in localStorage for Axios and synced to cookies for Next.js Middleware route protection.
-*   **Rate Limiting:** Protects the API from DDoS and brute force attacks.
+*   **Rate Limiting & Security Headers:** Protects the API from DDoS and brute force attacks via `express-rate-limit` and `helmet`.
 *   **Orphan File Cleanup:** Deleting a health record automatically triggers a deletion request to Cloudinary via `publicId` to prevent storage leaks.
 
 ---
